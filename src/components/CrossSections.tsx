@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // Hook to detect when element is in view (replayable)
 function useInView() {
@@ -35,13 +36,28 @@ interface CardProps {
   description: string | JSX.Element;
 }
 
-function CardButton() {
+function getRouteFromTitle(title: string): string {
+  const routeMap: { [key: string]: string } = {
+    "La proprietà": "/la-proprieta",
+    "Il contesto": "/il-contesto",
+    "L'investimento": "/linvestimento"
+  };
+  return routeMap[title] || "/";
+}
+
+function CardButton({ title }: { title: string }) {
+  const route = getRouteFromTitle(title);
+  
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Card Button">
+    <Link 
+      to={route}
+      className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" 
+      data-name="Card Button"
+    >
       <p className="font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
         approfondisci
       </p>
-    </button>
+    </Link>
   );
 }
 
@@ -54,22 +70,22 @@ function CardContent({ title, description }: CardProps) {
         <div className="content-stretch flex flex-col gap-[24px] xl:gap-[40px] items-start xl:pl-[0px] xl:pr-0 xl:py-0 relative md:w-full xl:w-full">
           <h3 className="block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] xl:leading-[1.1] min-w-full relative shrink-0 text-[#ad3854] text-[32px] xl:text-[48px] w-[min-content]">{title}</h3>
           {typeof description === 'string' ? (
-            <h3 className="font-['Open_Sans:Regular',sans-serif] leading-[1.4] xl:leading-[1.6] min-w-full not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] xl:text-[20px] w-full line-clamp-4">{description}</h3>
+            <h3 className="font-['Open_Sans:Regular',sans-serif] leading-[1.4] xl:leading-[1.6] min-w-full not-italic relative shrink-0 text-[#333333] text-[18px] xl:text-[20px] w-full">{description}</h3>
           ) : (
-            <div className="font-['Open_Sans:Regular',sans-serif] leading-[1.4] xl:leading-[1.6] not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] xl:text-[20px] w-full line-clamp-4">
+            <div className="font-['Open_Sans:Regular',sans-serif] leading-[1.4] xl:leading-[1.6] not-italic relative shrink-0 text-[#333333] text-[18px] xl:text-[20px] w-full">
               {description}
             </div>
           )}
-          <CardButton />
+          <CardButton title={title} />
         </div>
       </div>
     </div>
   );
 }
 
-function LeftCard({ card }: { card: CardProps }) {
+function LeftCard({ card, isInView }: { card: CardProps; isInView: boolean }) {
   return (
-    <div className="bg-white xl:basis-0 xl:grow xl:min-w-px relative shadow-[-16px_16px_48px_0px_rgba(89,54,21,0.06)] shrink-0 w-full" data-name="Left Card">
+    <div className={`bg-white xl:basis-0 xl:grow xl:min-w-px relative shadow-[-16px_16px_48px_0px_rgba(89,54,21,0.06)] shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Left Card">
       <div className="w-full">
         <div className="content-stretch flex flex-col items-start p-[40px] xl:p-[56px] relative w-full">
           <CardContent 
@@ -82,17 +98,17 @@ function LeftCard({ card }: { card: CardProps }) {
   );
 }
 
-function LeftCardWrapper({ card }: { card: CardProps }) {
+function LeftCardWrapper({ card, isInView }: { card: CardProps; isInView: boolean }) {
   return (
     <div className="content-stretch xl:basis-0 xl:grow flex flex-col items-start min-h-px min-w-px relative shrink-0 w-full" data-name="Left Card Wrapper">
-      <LeftCard card={card} />
+      <LeftCard card={card} isInView={isInView} />
     </div>
   );
 }
 
-function RightCard({ card }: { card: CardProps }) {
+function RightCard({ card, isInView }: { card: CardProps; isInView: boolean }) {
   return (
-    <div className="bg-white xl:basis-0 xl:grow xl:min-w-px xl:h-full relative shadow-[-16px_16px_48px_0px_rgba(89,54,21,0.06)] shrink-0 w-full" data-name="Right Card">
+    <div className={`bg-white xl:basis-0 xl:grow xl:min-w-px xl:h-full relative shadow-[-16px_16px_48px_0px_rgba(89,54,21,0.06)] shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Right Card">
       <div className="size-full">
         <div className="content-stretch flex flex-col items-start p-[40px] xl:p-[56px] relative size-full">
           <CardContent 
@@ -105,19 +121,19 @@ function RightCard({ card }: { card: CardProps }) {
   );
 }
 
-function RightCardWrapper({ card }: { card: CardProps }) {
+function RightCardWrapper({ card, isInView }: { card: CardProps; isInView: boolean }) {
   return (
     <div className="content-stretch xl:basis-0 xl:grow xl:h-full flex flex-col items-start min-h-px min-w-px relative shrink-0 w-full" data-name="Right Card Wrapper">
-      <RightCard card={card} />
+      <RightCard card={card} isInView={isInView} />
     </div>
   );
 }
 
-function CardsRow({ leftCard, rightCard }: { leftCard: CardProps; rightCard: CardProps }) {
+function CardsRow({ leftCard, rightCard, isInView }: { leftCard: CardProps; rightCard: CardProps; isInView: boolean }) {
   return (
     <div className="content-stretch xl:basis-0 flex flex-col xl:flex-row gap-[24px] xl:gap-[40px] items-center xl:items-stretch justify-center max-w-[1120px] xl:grow xl:min-w-px relative shrink-0 w-full" data-name="Cards Row">
-      <LeftCardWrapper card={leftCard} />
-      <RightCardWrapper card={rightCard} />
+      <LeftCardWrapper card={leftCard} isInView={isInView} />
+      <RightCardWrapper card={rightCard} isInView={isInView} />
     </div>
   );
 }
@@ -131,10 +147,10 @@ export default function CrossSections({ leftCard, rightCard }: CrossSectionsProp
   const [ref, isInView] = useInView();
   
   return (
-    <article ref={ref} className={`bg-[#f6eee5] block relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="cross sections">
+    <article ref={ref} className="bg-[#f6eee5] block relative shrink-0 w-full" data-name="cross sections">
       <div className="flex flex-col md:flex-row md:justify-center xl:flex-row xl:justify-center size-full">
         <div className="content-stretch flex flex-col md:flex-row items-center md:items-start xl:items-start md:justify-center xl:justify-center px-[16px] md:px-[64px] xl:px-[80px] py-[32px] md:py-[40px] xl:py-[80px] relative w-full">
-          <CardsRow leftCard={leftCard} rightCard={rightCard} />
+          <CardsRow leftCard={leftCard} rightCard={rightCard} isInView={isInView} />
         </div>
       </div>
     </article>

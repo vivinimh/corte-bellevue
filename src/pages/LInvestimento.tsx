@@ -1,6 +1,6 @@
-import DesktopInvestimento from "../imports/DesktopInvestimento";
-import MobileInvestimento from "../imports/MobileInvestimento";
-import TabletInvestimento from "../imports/TabletInvestimento";
+import DesktopInvestimento from "../layouts/DesktopInvestimento";
+import MobileInvestimento from "../layouts/MobileInvestimento";
+import TabletInvestimento from "../layouts/TabletInvestimento";
 
 export default function LInvestimento() {
   return (

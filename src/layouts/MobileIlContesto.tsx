@@ -261,13 +261,18 @@ export default function Mobile() {
       <CrossSections 
         leftCard={{
           title: "La proprietà",
-          description: "Corte Belle Vue dispone di quattro edifici che possono essere utilizzati in futuro sia a scopo abitativo che commerciale, si affacciano su una corte comune e sono circondati da campagna a perdita d'occhio."
+          description: (
+            <>
+              <h3 className="block mb-0">La tenuta ha quattro edifici rurali di fine Ottocento di interesse storico-architettonico: un'elegante basso comodo interamente ristrutturato, la casa padronale con annesso importante nella sua volumetria ed una stalla-fienile con porticato d'epoca ad elle, unico nel suo genere, sono interamente da ristrutturare.</h3>
+              <h3 className="block">Il terreno che circonda gli edifici è per la maggior parte sviluppato a vigneti e in parte minore ad erba spagna.</h3>
+            </>
+          )
         }}
         rightCard={{
           title: "L'investimento",
           description: (
             <>
-              <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo.</h3>
+              <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Ad esempio, attraverso questa suggestiva immagine realizzata con l'intelligenza artificiale, si intuisce come un fienile possa rivelare tutto il suo potenziale, trasformandosi in una dimora d'ispirazione provenzale.</h3>
               <h3 className="block">Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia.</h3>
             </>
           )

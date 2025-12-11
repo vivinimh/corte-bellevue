@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import svgPaths from "./svg-j4imkms3yc";
+import svgPaths from "../utils/svg/svg-j4imkms3yc";
 import { useLanguage } from "../contexts/LanguageContext";
 import Footer from "../components/Footer";
 // Grass field images from Unsplash
@@ -485,11 +485,11 @@ function Video() {
 
 function Button() {
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
+    <Link to="/la-proprieta" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
         approfondisci
       </p>
-    </button>
+    </Link>
   );
 }
 
@@ -578,11 +578,11 @@ function Image1() {
 
 function Button1() {
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
+    <Link to="/il-contesto" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
         approfondisci
       </p>
-    </button>
+    </Link>
   );
 }
 
@@ -645,11 +645,11 @@ function ContenutoLancio1() {
 
 function Button2() {
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
+    <Link to="/linvestimento" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
         approfondisci
       </p>
-    </button>
+    </Link>
   );
 }
 

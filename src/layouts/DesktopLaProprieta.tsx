@@ -1,56 +1,56 @@
 import { useState, useEffect } from "react";
-import svgPaths from "./svg-2z3z4r2qr1";
+import svgPaths from "../utils/svg/svg-2z3z4r2qr1";
 import { Navigation } from "./Desktop";
 import Footer from "../components/Footer";
 import CrossSections from "../components/CrossSections";
 import ImageCarousel from "../components/ImageCarousel";
 import PageHeader from "../components/PageHeader";
 // Images from assets
-import imgNavheroPage from "../assets/photos/interni basso/DSC_4405.jpg";
-import imgWhatsAppImage20251121At1442501 from "../assets/photos/interni basso/DSC_4406.jpg";
-import imgWhatsAppImage20251121At1442502 from "../assets/photos/interni basso/DSC_4407.jpg";
-import imgWhatsAppImage20251121At1442503 from "../assets/photos/interni basso/DSC_4408-HDR.jpg";
+import imgNavheroPage from "../../assets/photos/interni basso/DSC_4405.jpg";
+import imgWhatsAppImage20251121At1442501 from "../../assets/photos/interni basso/DSC_4406.jpg";
+import imgWhatsAppImage20251121At1442502 from "../../assets/photos/interni basso/DSC_4407.jpg";
+import imgWhatsAppImage20251121At1442503 from "../../assets/photos/interni basso/DSC_4408-HDR.jpg";
 
 // Carousel images from interni basso folder
-import carouselImg1 from "../assets/photos/interni basso/DSC_4405.jpg";
-import carouselImg2 from "../assets/photos/interni basso/DSC_4406.jpg";
-import carouselImg3 from "../assets/photos/interni basso/DSC_4407.jpg";
-import carouselImg4 from "../assets/photos/interni basso/DSC_4408-HDR.jpg";
-import carouselImg5 from "../assets/photos/interni basso/DSC_4411-HDR.jpg";
-import carouselImg6 from "../assets/photos/interni basso/DSC_4414-HDR.jpg";
-import carouselImg7 from "../assets/photos/interni basso/DSC_4417-HDR.jpg";
-import carouselImg8 from "../assets/photos/interni basso/DSC_4420.jpg";
-import carouselImg9 from "../assets/photos/interni basso/DSC_4421.jpg";
-import carouselImg10 from "../assets/photos/interni basso/DSC_4422.jpg";
-import carouselImg11 from "../assets/photos/interni basso/DSC_4423-HDR.jpg";
-import carouselImg12 from "../assets/photos/interni basso/DSC_4426.jpg";
-import carouselImg13 from "../assets/photos/interni basso/DSC_4429.jpg";
-import carouselImg14 from "../assets/photos/interni basso/DSC_4430.jpg";
-import carouselImg15 from "../assets/photos/interni basso/DSC_4431.jpg";
-import carouselImg16 from "../assets/photos/interni basso/DSC_4432.jpg";
-import carouselImg17 from "../assets/photos/interni basso/DSC_4433-HDR.jpg";
-import carouselImg18 from "../assets/photos/interni basso/DSC_4436.jpg";
-import carouselImg19 from "../assets/photos/interni basso/DSC_4437-HDR.jpg";
-import carouselImg20 from "../assets/photos/interni basso/DSC_4440-HDR.jpg";
-import carouselImg21 from "../assets/photos/interni basso/DSC_4443-HDR.jpg";
-import carouselImg22 from "../assets/photos/interni basso/DSC_4446.jpg";
-import carouselImg23 from "../assets/photos/interni basso/DSC_4447.jpg";
-import carouselImg24 from "../assets/photos/interni basso/DSC_4454-HDR.jpg";
-import carouselImg25 from "../assets/photos/interni basso/DSC_4457-HDR.jpg";
-import carouselImg26 from "../assets/photos/interni basso/DSC_4460.jpg";
-import carouselImg27 from "../assets/photos/interni basso/DSC_4463.jpg";
-import carouselImg28 from "../assets/photos/interni basso/DSC_4465.jpg";
-import carouselImg29 from "../assets/photos/interni basso/DSC_4466.jpg";
-import carouselImg30 from "../assets/photos/interni basso/DSC_4467.jpg";
-import carouselImg31 from "../assets/photos/interni basso/DSC_4468.jpg";
-import carouselImg32 from "../assets/photos/interni basso/DSC_4469.jpg";
-import carouselImg33 from "../assets/photos/interni basso/DSC_4470.jpg";
-import carouselImg34 from "../assets/photos/interni basso/DSC_4471.jpg";
-import carouselImg35 from "../assets/photos/interni basso/DSC_4472.jpg";
-import carouselImg36 from "../assets/photos/interni basso/DSC_4473.jpg";
-import carouselImg37 from "../assets/photos/interni basso/DSC_4474.jpg";
-import carouselImg38 from "../assets/photos/interni basso/DSC_4475.jpg";
-import carouselImg39 from "../assets/photos/interni basso/DSC_4476.jpg";
+import carouselImg1 from "../../assets/photos/interni basso/DSC_4405.jpg";
+import carouselImg2 from "../../assets/photos/interni basso/DSC_4406.jpg";
+import carouselImg3 from "../../assets/photos/interni basso/DSC_4407.jpg";
+import carouselImg4 from "../../assets/photos/interni basso/DSC_4408-HDR.jpg";
+import carouselImg5 from "../../assets/photos/interni basso/DSC_4411-HDR.jpg";
+import carouselImg6 from "../../assets/photos/interni basso/DSC_4414-HDR.jpg";
+import carouselImg7 from "../../assets/photos/interni basso/DSC_4417-HDR.jpg";
+import carouselImg8 from "../../assets/photos/interni basso/DSC_4420.jpg";
+import carouselImg9 from "../../assets/photos/interni basso/DSC_4421.jpg";
+import carouselImg10 from "../../assets/photos/interni basso/DSC_4422.jpg";
+import carouselImg11 from "../../assets/photos/interni basso/DSC_4423-HDR.jpg";
+import carouselImg12 from "../../assets/photos/interni basso/DSC_4426.jpg";
+import carouselImg13 from "../../assets/photos/interni basso/DSC_4429.jpg";
+import carouselImg14 from "../../assets/photos/interni basso/DSC_4430.jpg";
+import carouselImg15 from "../../assets/photos/interni basso/DSC_4431.jpg";
+import carouselImg16 from "../../assets/photos/interni basso/DSC_4432.jpg";
+import carouselImg17 from "../../assets/photos/interni basso/DSC_4433-HDR.jpg";
+import carouselImg18 from "../../assets/photos/interni basso/DSC_4436.jpg";
+import carouselImg19 from "../../assets/photos/interni basso/DSC_4437-HDR.jpg";
+import carouselImg20 from "../../assets/photos/interni basso/DSC_4440-HDR.jpg";
+import carouselImg21 from "../../assets/photos/interni basso/DSC_4443-HDR.jpg";
+import carouselImg22 from "../../assets/photos/interni basso/DSC_4446.jpg";
+import carouselImg23 from "../../assets/photos/interni basso/DSC_4447.jpg";
+import carouselImg24 from "../../assets/photos/interni basso/DSC_4454-HDR.jpg";
+import carouselImg25 from "../../assets/photos/interni basso/DSC_4457-HDR.jpg";
+import carouselImg26 from "../../assets/photos/interni basso/DSC_4460.jpg";
+import carouselImg27 from "../../assets/photos/interni basso/DSC_4463.jpg";
+import carouselImg28 from "../../assets/photos/interni basso/DSC_4465.jpg";
+import carouselImg29 from "../../assets/photos/interni basso/DSC_4466.jpg";
+import carouselImg30 from "../../assets/photos/interni basso/DSC_4467.jpg";
+import carouselImg31 from "../../assets/photos/interni basso/DSC_4468.jpg";
+import carouselImg32 from "../../assets/photos/interni basso/DSC_4469.jpg";
+import carouselImg33 from "../../assets/photos/interni basso/DSC_4470.jpg";
+import carouselImg34 from "../../assets/photos/interni basso/DSC_4471.jpg";
+import carouselImg35 from "../../assets/photos/interni basso/DSC_4472.jpg";
+import carouselImg36 from "../../assets/photos/interni basso/DSC_4473.jpg";
+import carouselImg37 from "../../assets/photos/interni basso/DSC_4474.jpg";
+import carouselImg38 from "../../assets/photos/interni basso/DSC_4475.jpg";
+import carouselImg39 from "../../assets/photos/interni basso/DSC_4476.jpg";
 
 // Hook to detect when element is in view (replayable)
 function useInView() {
@@ -365,13 +365,13 @@ export default function Desktop() {
       <CrossSections 
         leftCard={{
           title: "Il contesto",
-          description: "Il contesto circostante è una vetrina di eccellenze mondiali: a pochi minuti si trova la sede della Ferrari Spa Formula 1, l'Osteria Francescana di Massimo Bottura, le acetaie storiche di Modena e il distretto della ceramica di Sassuolo. Corte Bellevue sorge in un territorio unico, dove heritage e innovazione convivono armoniosamente, raccontando l'essenza del Made in Italy e di uno stile di vita legato alle tradizioni e ad un patrimonio culturale unico al mondo."
+          description: "Il contesto circostante è una vetrina di eccellenze mondiali: a pochi minuti si trova la sede della Ferrari Spa Formula 1, Pagani Spa auto di lusso, l'Osteria Francescana di Massimo Bottura, le acetaie storiche di Modena e il distretto della ceramica di Sassuolo. Corte Belle Vue sorge in un territorio unico, dove heritage e innovazione convivono armoniosamente, raccontando l'essenza del Made in Italy e di uno stile di vita legato alle tradizioni e ad un patrimonio culturale unico al mondo."
         }}
         rightCard={{
           title: "L'investimento",
           description: (
             <>
-              <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo.</h3>
+              <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Ad esempio, attraverso questa suggestiva immagine realizzata con l'intelligenza artificiale, si intuisce come un fienile possa rivelare tutto il suo potenziale, trasformandosi in una dimora d'ispirazione provenzale.</h3>
               <h3 className="block">Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia.</h3>
             </>
           )

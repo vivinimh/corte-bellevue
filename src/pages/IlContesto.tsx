@@ -1,21 +1,21 @@
-import DesktopLaProprieta from "../imports/DesktopLaProprieta";
-import MobileLaProprieta from "../imports/MobileLaProprieta";
-import TabletLaProprieta from "../imports/TabletLaProprieta";
+import DesktopIlContesto from "../layouts/DesktopIlContesto";
+import MobileIlContesto from "../layouts/MobileIlContesto";
+import TabletIlContesto from "../layouts/TabletIlContesto";
 
-export default function LaProprieta() {
+export default function IlContesto() {
   return (
     <>
       {/* Mobile view - shown on screens smaller than 768px */}
       <div className="block md:hidden">
-        <MobileLaProprieta />
+        <MobileIlContesto />
       </div>
       {/* Tablet view - shown on screens 768px to 1279px */}
       <div className="hidden md:block xl:hidden">
-        <TabletLaProprieta />
+        <TabletIlContesto />
       </div>
       {/* Desktop view - shown on screens 1280px and larger */}
       <div className="hidden xl:block">
-        <DesktopLaProprieta />
+        <DesktopIlContesto />
       </div>
     </>
   );
