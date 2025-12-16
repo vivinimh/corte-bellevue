@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Navigation } from "./Desktop";
 import Footer from "../components/Footer";
 import CrossSections from "../components/CrossSections";
@@ -9,9 +10,40 @@ const imgImage1 = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?
 const imgWhatsAppImage20251121At1442501 = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=536&h=536&fit=crop";
 const imgWhatsAppImage20251121At1442502 = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=536&h=536&fit=crop";
 
+// Hook to detect when element is in view (replayable)
+function useInView() {
+  const [isInView, setIsInView] = useState(false);
+  const [wasInView, setWasInView] = useState(false);
+  const [ref, setRef] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!ref) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !wasInView) {
+          setIsInView(true);
+          setWasInView(true);
+        } else if (!entry.isIntersecting && wasInView) {
+          // Reset when leaving viewport to allow replay
+          setIsInView(false);
+          setWasInView(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [ref, wasInView]);
+
+  return [setRef, isInView] as const;
+}
+
 function Image() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="bg-[#f6eee5] content-stretch flex flex-col items-center justify-center overflow-clip relative shrink-0 w-full" data-name="Image">
+    <div ref={ref} className={`bg-[#f6eee5] content-stretch flex flex-col items-center justify-center overflow-clip relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
       <div className="aspect-[348/348] relative shrink-0 w-full" data-name="Image 1">
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <div className="absolute bg-[#c4c4c4] inset-0" />
@@ -22,22 +54,37 @@ function Image() {
   );
 }
 
-function Content() {
+function ParagraphContent() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="basis-0 content-stretch flex flex-col gap-[48px] grow items-start min-h-px min-w-px relative shrink-0" data-name="content">
-      <Image />
-      <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.6] relative shrink-0 text-[#333333] text-[20px] w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
-        <p className="mb-0">A pochi chilometri da Modena, nel cuore pulsante dell'Emilia, Corte Belle Vue si trova in uno degli otto comuni della celebre MotorValley: dalla Ferrari alla Lamborghini, qui nascono le macchine dell'eccellenza meccanica e di design più iconico al mondo.</p>
-        <p>Per non parlare della ricca eredità enogastronomica del territorio, dove incontriamo il rinomato Chef Massimo Bottura e la sua Osteria Francescana, riconosciuto a livello internazionale per la sua maestria nel padroneggiare la cucina tradizionale, interpretandola in modo originale e raffinato. E poi ancora le acetaie storiche, dove nasce il rinomato Aceto Balsamico tradizionale di Modena.</p>
-      </div>
+    <div ref={ref} className={`font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.6] relative shrink-0 text-[#333333] text-[20px] w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} style={{ fontVariationSettings: "'wdth' 100" }}>
+      <p className="mb-0">A pochi chilometri da Modena, nel cuore pulsante dell'Emilia, Corte Belle Vue si trova in uno degli otto comuni della celebre MotorValley: dalla Ferrari alla Lamborghini, qui nascono le macchine dell'eccellenza meccanica e di design più iconico al mondo.</p>
+      <p>Per non parlare della ricca eredità enogastronomica del territorio, dove incontriamo il rinomato Chef Massimo Bottura e la sua Osteria Francescana, riconosciuto a livello internazionale per la sua maestria nel padroneggiare la cucina tradizionale, interpretandola in modo originale e raffinato. E poi ancora le acetaie storiche, dove nasce il rinomato Aceto Balsamico tradizionale di Modena.</p>
     </div>
+  );
+}
+
+function Content() {
+  const [ref, isInView] = useInView();
+  return (
+    <div ref={ref} className={`basis-0 content-stretch flex flex-col gap-[48px] grow items-start min-h-px min-w-px relative shrink-0 reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="content">
+      <Image />
+      <ParagraphContent />
+    </div>
+  );
+}
+
+function Title() {
+  const [ref, isInView] = useInView();
+  return (
+    <h2 ref={ref} className={`basis-0 block font-['EB_Garamond:Regular',sans-serif] font-normal grow leading-[1.1] min-h-px min-w-px relative self-stretch shrink-0 text-[#714b55] text-[48px] reveal-in-view ${isInView ? 'is-in-view' : ''}`}>Dove le eccellenze italiane sono di casa</h2>
   );
 }
 
 function MaxW1() {
   return (
     <div className="basis-0 content-stretch flex gap-[80px] grow items-start max-w-[1120px] min-h-px min-w-px mx-auto px-0 py-[80px] relative shrink-0 border-t border-b border-[#AD3854]" data-name="max w">
-      <h2 className="basis-0 block font-['EB_Garamond:Regular',sans-serif] font-normal grow leading-[1.1] min-h-px min-w-px relative self-stretch shrink-0 text-[#714b55] text-[48px]">Dove le eccellenze italiane sono di casa</h2>
+      <Title />
       <Content />
     </div>
   );
@@ -56,8 +103,9 @@ function ContenutoTitoloIsolato() {
 }
 
 function Image1() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0" data-name="Image">
+    <div ref={ref} className={`aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0 reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
       <div className="basis-0 grow h-full min-h-px min-w-px relative shrink-0" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgWhatsAppImage20251121At1442501} />
       </div>
@@ -66,8 +114,9 @@ function Image1() {
 }
 
 function Copy() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="basis-0 content-stretch flex flex-col gap-[24px] grow items-start min-h-px min-w-px relative shrink-0" data-name="copy">
+    <div ref={ref} className={`basis-0 content-stretch flex flex-col gap-[24px] grow items-start min-h-px min-w-px relative shrink-0 reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
       <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.6] relative shrink-0 text-[#333333] text-[20px] w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
         <h3 className="block mb-0">{`In questa meravigliosa città, troviamo un patrimonio artistico e culturale ricco di storia: Modena è infatti strettamente legata alla dinastia degli estensi, mecenati e promotori delle arti che la fecero cuore del loro ducato, riunendo nella città collezione di opere d'arte di grande valore e costruendo monumentali edifici come il Palazzo Ducale.`}</h3>
         <h3 className="block mb-0">{`Sempre a Modena, abbiamo la fortuna di ospitare uno dei siti riconosciuti patrimonio dell'Umanità dall'Unesco: Il Duomo e La Torre Ghirlandina, vero simbolo della città, magistrale esempio di architettura romanica e gotica. `}</h3>
@@ -101,8 +150,9 @@ function ContenutoFotoIsolata() {
 }
 
 function Copy1() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="basis-0 content-stretch flex flex-col gap-[24px] grow items-start min-h-px min-w-px relative shrink-0" data-name="copy">
+    <div ref={ref} className={`basis-0 content-stretch flex flex-col gap-[24px] grow items-start min-h-px min-w-px relative shrink-0 reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
       <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.6] relative shrink-0 text-[#333333] text-[20px] w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
         <h3 className="block mb-0">Per finire, la natura che circonda Corte Belle Vue: siamo al centro della meravigliosa campagna formiginese, immersi nel verde, con lo sguardo che abbraccia l'Appennino Tosco-Emiliano ed i suoi comprensori sciistici del Monte Cimone e dell'Abetone, raggiungibili in meno di un'ora.</h3>
         <h3 className="block mb-0">Un paesaggio che unisce la quiete della campagna alla forza produttiva di una delle aree più dinamiche d'Italia.</h3>
@@ -113,8 +163,9 @@ function Copy1() {
 }
 
 function Image2() {
+  const [ref, isInView] = useInView();
   return (
-    <div className="aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0" data-name="Image">
+    <div ref={ref} className={`aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0 reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
       <div className="basis-0 grow h-full min-h-px min-w-px relative shrink-0" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgWhatsAppImage20251121At1442502} />
       </div>

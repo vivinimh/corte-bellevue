@@ -6,6 +6,7 @@ import Tablet from "./layouts/Tablet";
 import LaProprieta from "./pages/LaProprieta";
 import LInvestimento from "./pages/LInvestimento";
 import IlContesto from "./pages/IlContesto";
+import UnderConstruction from "./components/UnderConstruction";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -37,14 +38,12 @@ function HomePage() {
 }
 
 export default function App() {
+  // Sito in costruzione - mostra UnderConstruction per tutte le route
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/la-proprieta" element={<LaProprieta />} />
-        <Route path="/linvestimento" element={<LInvestimento />} />
-        <Route path="/il-contesto" element={<IlContesto />} />
+        <Route path="*" element={<UnderConstruction />} />
       </Routes>
     </>
   );

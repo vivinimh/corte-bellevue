@@ -9,6 +9,8 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, subtitle, image, variant }: PageHeaderProps) {
   const [parallaxOffset, setParallaxOffset] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const [wasInView, setWasInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const getMaxWidth = () => {
     if (variant === "mobile") return "w-full";
@@ -19,7 +21,7 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
 
   const variants = {
     mobile: {
-      container: "min-h-[237px]",
+      container: "h-[237px]",
       padding: "px-[16px] py-[64px]",
       titleSize: "text-[32px]",
       subtitleSize: "text-[24px]",
@@ -27,7 +29,7 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
       overlay: "bg-[rgba(4,18,3,0.6)]",
     },
     tablet: {
-      container: "min-h-[217px]",
+      container: "h-[217px]",
       padding: "p-[64px]",
       titleSize: "text-[32px]",
       subtitleSize: "text-[24px]",
@@ -35,7 +37,7 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
       overlay: "bg-[rgba(4,18,3,0.6)]",
     },
     desktop: {
-      container: "min-h-[274px]",
+      container: "h-[274px]",
       padding: "p-[80px]",
       titleSize: "text-[48px]",
       subtitleSize: "text-[32px]",
@@ -46,6 +48,28 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
 
   const styles = variants[variant];
   const maxWidth = getMaxWidth();
+
+  // IntersectionObserver for reveal effect
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !wasInView) {
+          setIsInView(true);
+          setWasInView(true);
+        } else if (!entry.isIntersecting && wasInView) {
+          // Reset when leaving viewport to allow replay
+          setIsInView(false);
+          setWasInView(false);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [wasInView]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,8 +110,8 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
   }, []);
 
   return (
-    <div ref={containerRef} className={`${styles.container} relative shrink-0 w-full overflow-hidden`} data-name="navhero page">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div ref={containerRef} className={`${styles.container} relative shrink-0 w-full overflow-hidden reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="navhero page">
+      <div aria-hidden="true" className="absolute inset-0 bottom-[-40px] pointer-events-none overflow-hidden">
         <img 
           alt="" 
           className="absolute max-w-none object-50%-50% object-cover size-full" 
@@ -99,7 +123,7 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
           }}
         />
         <div 
-          className={`absolute ${styles.overlay} inset-0`}
+          className={`absolute ${styles.overlay} inset-0 bottom-[-40px]`}
           style={{
             transform: `translateY(${parallaxOffset}px) scale(1.1)`,
             willChange: 'transform',
@@ -107,8 +131,8 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
           }}
         />
       </div>
-      <div className="flex flex-col items-center justify-center min-h-[inherit] overflow-clip rounded-[inherit] size-full">
-        <div className={`content-stretch flex flex-col items-center justify-center min-h-[inherit] ${styles.padding} relative w-full`}>
+      <div className="flex flex-col items-center justify-center h-full overflow-clip rounded-[inherit] size-full">
+        <div className={`content-stretch flex flex-col items-center justify-center h-full ${styles.padding} relative w-full`}>
           <div className={`content-stretch flex flex-col ${styles.gap} items-center ${maxWidth} relative shrink-0 w-full text-center`} data-name="max w">
             <p className={`[text-shadow:rgba(0,0,0,0.35)_2px_2px_7px] font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] relative shrink-0 text-[#f6eee5] ${styles.titleSize} text-center text-nowrap whitespace-pre`}>
               {title}

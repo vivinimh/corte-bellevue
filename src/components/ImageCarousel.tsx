@@ -24,6 +24,10 @@ export default function ImageCarousel({
   // Ensure initialIndex is within bounds
   const safeInitialIndex = images.length > 0 ? Math.max(0, Math.min(initialIndex, images.length - 1)) : 0;
   const [currentIndex, setCurrentIndex] = useState(safeInitialIndex);
+  const [displayIndex, setDisplayIndex] = useState(safeInitialIndex);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [fadeIn, setFadeIn] = useState(false);
+  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
   
   // Swipe handling for tablet and mobile with drag effect
   const [isDragging, setIsDragging] = useState(false);
@@ -39,6 +43,37 @@ export default function ImageCarousel({
   useEffect(() => {
     currentIndexRef.current = currentIndex;
   }, [currentIndex]);
+
+  // Handle cross-fade when index changes
+  useEffect(() => {
+    if (currentIndex !== displayIndex) {
+      setPreviousIndex(displayIndex);
+      setFadeOut(false);
+      setFadeIn(false);
+      // Start fade out after render
+      const startFadeOut = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setFadeOut(true);
+        });
+      });
+      // After fade out completes (2s), start fade in
+      const startFadeIn = setTimeout(() => {
+        setFadeIn(true);
+      }, 2000);
+      // After fade in completes (another 2s), update displayIndex and clear previous
+      const endTimer = setTimeout(() => {
+        setDisplayIndex(currentIndex);
+        setFadeOut(false);
+        setFadeIn(false);
+        setPreviousIndex(null);
+      }, 4000); // Total: 2s fade out + 2s fade in
+      return () => {
+        cancelAnimationFrame(startFadeOut);
+        clearTimeout(startFadeIn);
+        clearTimeout(endTimer);
+      };
+    }
+  }, [currentIndex, displayIndex]);
   
   useEffect(() => {
     dragOffsetRef.current = dragOffset;
@@ -184,7 +219,11 @@ export default function ImageCarousel({
       );
     }
     
-    // Desktop view
+    // Desktop view with cross-fade
+    const isTransitioning = displayIndex !== currentIndex;
+    const showPrevious = previousIndex !== null || isTransitioning;
+    const prevImageIndex = previousIndex !== null ? previousIndex : displayIndex;
+    
     return (
       <div 
         ref={containerRef}
@@ -192,11 +231,29 @@ export default function ImageCarousel({
         data-name="image"
       >
         <div className={`${innerAspectRatio} relative shrink-0 w-full`} data-name="image">
+          {/* Previous image fading out */}
+          {showPrevious && (
+            <img 
+              alt="" 
+              className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
+              src={images[prevImageIndex]} 
+              draggable={false}
+              style={{
+                opacity: fadeOut ? 0 : 1,
+                transition: 'opacity 2s ease-in-out',
+              }}
+            />
+          )}
+          {/* Current image fading in */}
           <img 
             alt="" 
             className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
             src={src} 
             draggable={false}
+            style={{
+              opacity: isTransitioning || previousIndex !== null ? (fadeIn ? 1 : 0) : 1,
+              transition: (isTransitioning || previousIndex !== null) ? 'opacity 2s ease-in-out' : 'none',
+            }}
           />
         </div>
       </div>
