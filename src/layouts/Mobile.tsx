@@ -19,8 +19,8 @@ function Icons({ isOverlaying, onClick, isMenuOpen }: { isOverlaying: boolean; o
   const fillColor = isOverlaying ? "#F6EEE5" : "#714B55";
   
   return (
-    <button onClick={onClick} className="relative shrink-0 size-[32px] cursor-pointer" data-name="icons">
-      <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
+    <button onClick={onClick} className="relative shrink-0 w-[56px] h-[32px] cursor-pointer flex items-center justify-center" data-name="icons">
+      <svg className="block size-[32px]" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
         <g id="icons">
           <path 
             d={svgPaths.pc9f6700} 
