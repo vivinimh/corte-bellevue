@@ -1,0 +1,170 @@
+{
+  "common": {
+    "siteName": "Corte Belle Vue",
+    "siteSubtitle": "COUNTRY PROPERTY FOR SALE",
+    "navigation": {
+      "laProprieta": "The Property",
+      "linvestimento": "The investment",
+      "ilContesto": "The Context"
+    },
+    "buttons": {
+      "approfondisci": "Learn more",
+      "languageToggle": {
+        "eng": "ENG",
+        "ita": "ITA"
+      }
+    },
+    "footer": {
+      "contact": "For information please contact Elis at",
+      "email": "cortebellevue@gmail.com",
+      "copyright": "© 2025 All Rights Reserved"
+    },
+    "cookieBanner": {
+      "message": "This website uses cookies to enhance your browsing experience. You can customize your preferences or accept all cookies.",
+      "accept": "Accept",
+      "acceptAll": "Accept All",
+      "rejectAll": "Reject All",
+      "customize": "Customize",
+      "close": "Close",
+      "preferences": {
+        "title": "Cookie Preferences",
+        "description": "Select the types of cookies you wish to accept. Essential cookies are necessary for the website to function and cannot be disabled.",
+        "cancel": "Cancel",
+        "save": "Save Preferences",
+        "essential": {
+          "title": "Essential Cookies",
+          "description": "These cookies are necessary for the website to function and cannot be switched off. They include cookies for security, session management, and other basic functionalities."
+        },
+        "functional": {
+          "title": "Functional Cookies",
+          "description": "These cookies allow the website to remember your preferences (such as your selected language) and provide a more personalized browsing experience."
+        }
+      }
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Corte Belle Vue has within it the potential to adapt to entrepreneurial or residential projects of any scale"
+    },
+    "apertura": {
+      "title": "A few kilometres from Modena, nestled among rolling hills and rows of Lambrusco and Trebbiano di Spagna vines, lies a unique property: ten hectares of authentic Emilian beauty, where time slows down and the landscape tells stories of taste, passion and hospitality.",
+      "subtitle": "corte belle vue"
+    },
+    "sections": {
+      "laProprieta": {
+        "title": "The Property",
+        "description": "The estate has four late 19th-century rural buildings of historical and architectural interest: an elegant, fully renovated farmhouse, the manor house with its large annexe, and a unique stable-barn with a period portico, which is in need of complete renovation.",
+        "description2": "The land surrounding the buildings is partly cultivated with Spanish grass and mostly covered with vineyards."
+      },
+      "ilContesto": {
+        "title": "The Context",
+        "description": "The surrounding area is a showcase of global excellence: just a few minutes away are the headquarters of Ferrari Spa Formula 1, Pagani Spa luxury cars, Massimo Bottura's Osteria Francescana, the historic vinegar cellars of Modena and the ceramics district of Sassuolo. Corte Belle Vue is located in a unique area, where heritage and innovation coexist harmoniously, reflecting the essence of Made in Italy and a lifestyle linked to traditions and a cultural heritage that is unique in the world."
+      },
+      "prospettiveInvestimento": {
+        "title": "Investment Prospects",
+        "description": "The strategic location, natural beauty and architectural versatility make this property a valuable choice for those seeking an emotional and solid investment over time. For example, this evocative image created with artificial intelligence gives an idea of how a barn can reveal its full potential, transforming itself into a Provençal-inspired residence.",
+        "description2": "Here, you can build an international-level hospitality project or simply live the dream of a life immersed in the authentic rhythms of Emilia."
+      }
+    },
+    "chiusura": {
+      "text": "At Corte Belle Vue, authenticity meets elegance, tranquillity blends with economic vitality, and every perspective—tourism, residential, or entrepreneurial—finds fertile ground to grow."
+    }
+  },
+  "laProprieta": {
+    "pageTitle": "The Property",
+    "intro": {
+      "title": "Corte Belle Vue has four buildings that can be used in the future for both residential and commercial purposes. The structures overlook a shared courtyard and are surrounded by countryside as far as the eye can see.",
+      "description": "At the centre of the property, the manor house with its authentic charm and its barn/stable on the right dominate the Emilian countryside. Next to it, on the left, is what was once called the \"basso comodo\" (an outbuilding that was later transformed into a residence). This spacious and bright building has been completely renovated.",
+      "description2": "From the other side of the court is settled the barn/stable, with its period portico and large, bright spaces, preserves the charm of rural Emilian architecture. Another building is located next to the main house and would be ideal for a loft-style renovation overlooking the vineyard.",
+      "highlight": "The horseshoe-shaped courtyard overlooks the Tuscan-Emilian Apennines."
+    },
+    "bassoComodo": {
+      "title": "The renovated farm building",
+      "description": "Corte Belle Vue has a comfortable renovated farm building (building B) facing south-west, with a total area of approximately 300 square metres, combining functionality and elegance. The property is divided into two residential units: the main apartment and a guest apartment with an independent entrance. The ground floor also has two garages located on either side of the main entrance on the west side.",
+      "description2": "The main flat, with access on the west side, welcomes us with a large entrance hall dominated by a fine smoked brass staircase leading to the first floor, where we find an elegant and bright living room with high ceilings, a fireplace and a stube, the warm and refined heart of the house. From here, we enter a large, bright 16 m² kitchen furnished with eclectic taste. The living room also leads to the sleeping area with two bedrooms and a bathroom furnished with fine finishes with a textured, raw relief reminiscent of travertine.",
+      "description3": "From the living room, the heart of the home, a modern steel and glass staircase leads to a large loft overlooking the living room, ideal as a reading or study area. In the attic, there is a walk-in wardrobe, easily adaptable to an additional bedroom, and an elegant and comfortable bathroom with a bathtub.",
+      "description4": "On the ground floor, there is approximately 90 square metres of guest accommodation consisting of a kitchen, a tavern, two bathrooms, a study and a hobby room. The main residence and the guest accommodation are registered as a single property.",
+      "note": "The main residence and the guest accommodation are registered as a single property."
+    },
+    "altriLocali": {
+      "title": "The other buildings",
+      "description": "At the centre of the property, the charming manor house and its barn/stable on the right dominate the Emilian countryside.",
+      "casaPadronale": "The manor house (buildings A - C) is on two levels, plus an attic and a small basement used as a cellar. On the ground floor, there is a hallway leading to the living room and kitchen on the left, and a TV room or hobby room on the right, with access to the staircase and the cellar at the end. Upstairs there are five bedrooms, a hallway, bathroom and storage room. On the second floor there are large rooms used as attic space with heights ranging from 1.00 to 2.55 linear metres. The total surface area is 240 square metres, excluding the attic.",
+      "annesso": "The annex (building A) has a single volume of 637 cubic metres and is not divided into rooms.",
+      "fienileStalla": "The barn/stable (building D) features a unique period L-shaped portico with large spaces that can be used for residential or commercial purposes and has a total surface area of 1, 180 cubic metres, excluding the portico."
+    },
+    "vignetoAcetaia": {
+      "title": "The vineyard and the vinegar cellar",
+      "description": "Corte Belle Vue preserves an agricultural heritage of rare beauty. Part of it is cultivated with Lambrusco Grasparossa vines (both IGT and DOC), characterised by an intense ruby red colour and a fruity aroma with notes of black cherry and cherry. Lambrusco Salamino (both IGT and DOC) has a more intense colour and lively foam, with aromas of red fruit on the nose and a dry palate with pleasant acidity. Finally, a few rows of Trebbiano di Spagna grapes feed the family's vinegar cellar, a small collection of ten barrels, some dating back to the late 19th century. A tradition that tells the story of the slow magic of Aceto Balsamico di Modena DOC and DOP. An excellence that will soon be listed among UNESCO's intangible cultural heritage, a symbol of Emilian tradition and craftsmanship."
+    },
+    "crossSections": {
+      "ilContesto": {
+        "title": "The Context",
+        "description": "The surrounding area is a showcase of global excellence: just a few minutes away are the headquarters of Ferrari Spa Formula 1, Pagani Spa luxury cars, Massimo Bottura's Osteria Francescana, the historic vinegar cellars of Modena and the ceramics district of Sassuolo. Corte Belle Vue is located in a unique area, where heritage and innovation coexist harmoniously, reflecting the essence of Made in Italy and a lifestyle linked to traditions and a cultural heritage that is unique in the world."
+      },
+      "linvestimento": {
+        "title": "The Investment",
+        "description": "The strategic location, natural beauty and architectural versatility make this property a valuable choice for those seeking an emotional and solid investment over time. For example, this evocative image created with artificial intelligence gives an idea of how a barn can reveal its full potential, transforming itself into a Provençal-inspired residence.",
+        "description2": "Here, you can build an international-level hospitality project or simply live the dream of a life immersed in the authentic rhythms of Emilia."
+      }
+    }
+  },
+  "linvestimento": {
+    "pageTitle": "The Investment",
+    "pageSubtitle": "Living or investing in the land of taste and creativity",
+    "intro": {
+      "title": "Corte Belle Vue is a harmonious combination of spaces and functions, capable of adapting to multiple business and residential visions.",
+      "description": "Its versatility is the key: the property can be transformed into a Relais de Charme, an exclusive farmhouse, or a prestigious private residence for those who wish to live and invest in the authentic heart of Emilia.",
+      "renderingRistrutturazione": "renovation rendering"
+    },
+    "terreno": {
+      "description": "The ten hectares of land, eight of which are planted with Lambrusco and Trebbiano di Spagna vines, offer concrete production potential. The well-tended and well-exposed vineyards are an ideal base for quality wine production or experiential wine tourism projects, where hospitality, taste and rural culture come together in a unique and authentic offering.",
+      "description2": "Within the estate, the vinegar cellar with some authentic 19th-century barrels adds further prestige to the property, a distinctive feature that allows for the development of niche production or the enrichment of a hospitality project with an excellent local experience."
+    },
+    "chiusura": {
+      "text": "A place where every investment opportunity becomes a story of value, authenticity and future."
+    },
+    "crossSections": {
+      "ilContesto": {
+        "title": "The Context",
+        "description": "The surrounding area is a showcase of global excellence: just a few minutes away are the headquarters of Ferrari Spa Formula 1, Pagani Spa luxury cars, Massimo Bottura's Osteria Francescana, the historic vinegar cellars of Modena and the ceramics district of Sassuolo. Corte Belle Vue is located in a unique area, where heritage and innovation coexist harmoniously, reflecting the essence of Made in Italy and a lifestyle linked to traditions and a cultural heritage that is unique in the world."
+      },
+      "laProprieta": {
+        "title": "The Property",
+        "description": "The estate has four late 19th-century rural buildings of historical and architectural interest: an elegant, fully renovated farmhouse, the manor house with its large annexe, and a unique stable-barn with a period portico, which is in need of complete renovation.",
+        "description2": "The land surrounding the buildings is partly cultivated with Spanish grass and mostly covered with vineyards."
+      }
+    }
+  },
+  "ilContesto": {
+    "pageTitle": "The Context",
+    "pageSubtitle": "An ideal place to live, create, invest and be part of the most authentic story of Made in Italy.",
+    "intro": {
+      "title": "Where Italian excellence is at home",
+      "description": "A few kilometres from Modena, in the heart of Emilia, Corte Belle Vue is located in one of the eight municipalities of the famous Motor Valley: from Ferrari to Lamborghini, this is where the world's most iconic cars, renowned for their mechanical excellence and design, are born.",
+      "description2": "Not to mention the rich food and wine heritage of the area, where we find the renowned chef Massimo Bottura and his Osteria Francescana, internationally recognised for his mastery of traditional cuisine, interpreted in an original and refined way. And then there are the historic vinegar cellars, where the renowned traditional balsamic vinegar of Modena is produced."
+    },
+    "modena": {
+      "description": "In this wonderful city, we find an artistic and cultural heritage rich in history: Modena is closely linked to the Este dynasty, patrons and promoters of the arts who made it the heart of their duchy, bringing together a collection of valuable works of art in the city and constructing monumental buildings such as the Ducal Palace.",
+      "description2": "Modena is also fortunate to be home to one of UNESCO's World Heritage Sites: the Cathedral and the Ghirlandina Tower, a true symbol of the city and a masterful example of Romanesque and Gothic architecture.",
+      "description3": "Then there is the complex of Sassuolo, part of the Union of Municipalities of the Ceramic District, where fine tiles are still produced that are world leaders in terms of quality and innovative design."
+    },
+    "natura": {
+      "description": "Finally, the nature surrounding Corte Belle Vue: we are in the heart of the beautiful Formigine countryside, surrounded by greenery, with views stretching across the Tuscan-Emilian Apennines and the Monte Cimone and Abetone ski resorts, which can be reached in less than an hour.",
+      "description2": "A landscape that combines the tranquillity of the countryside with the productive power of one of the most dynamic areas in Italy.",
+      "description3": "Corte Belle Vue is therefore located in a unique setting, where craftsmanship meets technology, tradition blends with luxury and every road leads to excellence recognised throughout the world."
+    },
+    "crossSections": {
+      "laProprieta": {
+        "title": "The Property",
+        "description": "The estate has four late 19th-century rural buildings of historical and architectural interest: an elegant, fully renovated farmhouse, the manor house with its large annexe, and a unique stable-barn with a period portico, which is in need of complete renovation.",
+        "description2": "The land surrounding the buildings is partly cultivated with Spanish grass and mostly covered with vineyards."
+      },
+      "linvestimento": {
+        "title": "The Investment",
+        "description": "The strategic location, natural beauty and architectural versatility make this property a valuable choice for those seeking an emotional and solid investment over time. For example, this evocative image created with artificial intelligence gives an idea of how a barn can reveal its full potential, transforming itself into a Provençal-inspired residence.",
+        "description2": "Here, you can build an international-level hospitality project or simply live the dream of a life immersed in the authentic rhythms of Emilia."
+      }
+    }
+  }
+}

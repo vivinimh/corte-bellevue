@@ -1,65 +1,34 @@
-import { useState, useEffect } from "react";
 import { Navigation } from "./Mobile";
 import Footer from "../components/Footer";
 import CrossSections from "../components/CrossSections";
 import PageHeader from "../components/PageHeader";
+import { useInView } from "../hooks/useInView";
+import { useTranslation } from "../hooks/useTranslation";
 
-// Placeholder images - replace with actual images from assets folder
-const imgNavheroPage = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&h=963&fit=crop";
-const imgImage1 = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=352&h=352&fit=crop";
-const imgWhatsAppImage20251121At1442501 = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=352&h=352&fit=crop";
-const imgWhatsAppImage20251121At1442502 = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=352&h=352&fit=crop";
-
-// Hook to detect when element is in view (replayable)
-function useInView() {
-  const [isInView, setIsInView] = useState(false);
-  const [wasInView, setWasInView] = useState(false);
-  const [ref, setRef] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!ref) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !wasInView) {
-          setIsInView(true);
-          setWasInView(true);
-        } else if (!entry.isIntersecting && wasInView) {
-          // Reset when leaving viewport to allow replay
-          setIsInView(false);
-          setWasInView(false);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(ref);
-    return () => observer.disconnect();
-  }, [ref, wasInView]);
-
-  return [setRef, isInView] as const;
-}
+// Images from assets
+import imgNavheroPage from "../../assets/photos/contesto/Hero.png";
+import imgImage1 from "../../assets/photos/contesto/Photo 1.png";
+import imgWhatsAppImage20251121At1442501 from "../../assets/photos/contesto/Photo 2.png";
+import imgWhatsAppImage20251121At1442502 from "../../assets/photos/contesto/Photo 3.jpg";
 
 function Image() {
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`bg-[#f6eee5] content-stretch flex flex-col items-center justify-center overflow-clip relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
-      <div className="aspect-[352/352] relative shrink-0 w-full" data-name="Image 1">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="absolute bg-[#c4c4c4] inset-0" />
-          <img alt="santorini neighborhood" className="absolute max-w-none object-50%-50% object-cover size-full" src={imgImage1} />
-        </div>
+    <figure ref={ref} className={`bg-[#f6eee5] content-stretch flex flex-col items-center justify-center overflow-hidden relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
+      <div className="aspect-square relative shrink-0 w-full overflow-hidden" data-name="Image 1">
+        <img alt="Barili aceto balsamico" className="absolute inset-0 w-full h-full object-cover pointer-events-none" src={imgImage1} />
       </div>
-    </div>
+    </figure>
   );
 }
 
 function ParagraphContent() {
+  const t = useTranslation();
   const [ref, isInView] = useInView();
   return (
     <div ref={ref} className={`font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] relative shrink-0 text-[#333333] text-[18px] w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} style={{ fontVariationSettings: "'wdth' 100" }}>
-      <p className="mb-0">A pochi chilometri da Modena, nel cuore pulsante dell'Emilia, Corte Belle Vue si trova in uno degli otto comuni della celebre MotorValley: dalla Ferrari alla Lamborghini, qui nascono le macchine dell'eccellenza meccanica e di design più iconico al mondo.</p>
-      <p>Per non parlare della ricca eredità enogastronomica del territorio, dove incontriamo il rinomato Chef Massimo Bottura e la sua Osteria Francescana, riconosciuto a livello internazionale per la sua maestria nel padroneggiare la cucina tradizionale, interpretandola in modo originale e raffinato. E poi ancora le acetaie storiche, dove nasce il rinomato Aceto Balsamico tradizionale di Modena.</p>
+      <p className="mb-0">{t.ilContesto.intro.description}</p>
+      <p>{t.ilContesto.intro.description2}</p>
     </div>
   );
 }
@@ -67,34 +36,37 @@ function ParagraphContent() {
 function Content() {
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="content">
+    <section ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="content">
       <Image />
-      <ParagraphContent />
-    </div>
+    </section>
   );
 }
 
 function Title() {
+  const t = useTranslation();
   const [ref, isInView] = useInView();
   return (
-    <h2 ref={ref} className={`block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] relative shrink-0 text-[#714b55] text-[32px] w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`}>Dove le eccellenze italiane sono di casa</h2>
+    <p ref={ref} className={`font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.18] relative shrink-0 text-[#ad3854] text-[24px] w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`}>{t.ilContesto.intro.title}</p>
   );
 }
 
 function MaxW1() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start px-0 py-[40px] relative shrink-0 w-full border-t border-b border-[#AD3854]" data-name="max w">
-      <Title />
+    <section className="content-stretch flex flex-col gap-[32px] items-start px-0 py-[40px] relative shrink-0 w-full border-t border-b border-[#AD3854]" data-name="max w">
+      <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full" data-name="text content wrapper">
+        <Title />
+        <ParagraphContent />
+      </div>
       <Content />
-    </div>
+    </section>
   );
 }
 
 function ContenutoTitoloIsolato() {
   return (
     <article className="bg-[#f6eee5] relative shrink-0 w-full" data-name="contenuto titolo isolato">
-      <div className="flex flex-col items-center justify-center size-full">
-        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full">
+      <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
+        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full" data-name="section container">
           <MaxW1 />
         </div>
       </div>
@@ -105,41 +77,42 @@ function ContenutoTitoloIsolato() {
 function Image1() {
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px relative shrink-0 w-full" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
-        <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgWhatsAppImage20251121At1442501} />
+    <figure ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+        <img alt="Vista aerea Modena" className="absolute inset-[16px] w-[calc(100%-32px)] h-[calc(100%-32px)] max-w-none object-50%-50% object-cover pointer-events-none" src={imgWhatsAppImage20251121At1442501} />
       </div>
-    </div>
+    </figure>
   );
 }
 
 function Copy() {
+  const t = useTranslation();
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
-      <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] relative shrink-0 text-[#333333] text-[18px] w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
-        <h3 className="block mb-0">{`In questa meravigliosa città, troviamo un patrimonio artistico e culturale ricco di storia: Modena è infatti strettamente legata alla dinastia degli estensi, mecenati e promotori delle arti che la fecero cuore del loro ducato, riunendo nella città collezione di opere d'arte di grande valore e costruendo monumentali edifici come il Palazzo Ducale.`}</h3>
-        <h3 className="block mb-0">{`Sempre a Modena, abbiamo la fortuna di ospitare uno dei siti riconosciuti patrimonio dell'Umanità dall'Unesco: Il Duomo e La Torre Ghirlandina, vero simbolo della città, magistrale esempio di architettura romanica e gotica. `}</h3>
-        <h3 className="block">E poi il complesso di Sassuolo, facente parte dell'Unione dei Comuni del distretto ceramico, dove nascono pregiate piastrelle ancora prime al mondo per qualità e design innovativo.</h3>
+    <section ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
+      <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] relative shrink-0 text-[#333333] text-[18px] w-full" style={{ fontVariationSettings: "'wdth' 100" }} data-name="description content">
+        <h3 className="block mb-0">{t.ilContesto.modena.description}</h3>
+        <h3 className="block mb-0">{t.ilContesto.modena.description2}</h3>
+        <h3 className="block">{t.ilContesto.modena.description3}</h3>
       </div>
-    </div>
+    </section>
   );
 }
 
 function MaxW2() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="max w">
       <Image1 />
       <Copy />
-    </div>
+    </section>
   );
 }
 
 function ContenutoFotoIsolata() {
   return (
     <article className="relative shrink-0 w-full" data-name="contenuto foto isolata">
-      <div className="flex flex-col items-center justify-center size-full">
-        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full">
+      <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
+        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full" data-name="section container">
           <MaxW2 />
         </div>
       </div>
@@ -148,43 +121,44 @@ function ContenutoFotoIsolata() {
 }
 
 function Copy1() {
+  const t = useTranslation();
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
-      <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] relative shrink-0 text-[#333333] text-[18px] w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
-        <h3 className="block mb-0">Per finire, la natura che circonda Corte Belle Vue: siamo al centro della meravigliosa campagna formiginese, immersi nel verde, con lo sguardo che abbraccia l'Appennino Tosco-Emiliano ed i suoi comprensori sciistici del Monte Cimone e dell'Abetone, raggiungibili in meno di un'ora.</h3>
-        <h3 className="block mb-0">Un paesaggio che unisce la quiete della campagna alla forza produttiva di una delle aree più dinamiche d'Italia.</h3>
-        <h3 className="block">Corte Belle Vue sorge dunque in un contesto unico, dove l'artigianalità incontra la tecnologia, la tradizione si fonde con il lusso e ogni strada conduce a un'eccellenza riconosciuta in tutto il mondo.</h3>
+    <section ref={ref} className={`content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="copy">
+      <div className="font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] relative shrink-0 text-[#333333] text-[18px] w-full" style={{ fontVariationSettings: "'wdth' 100" }} data-name="description content">
+        <h3 className="block mb-0">{t.ilContesto.natura.description}</h3>
+        <h3 className="block mb-0">{t.ilContesto.natura.description2}</h3>
+        <h3 className="block">{t.ilContesto.natura.description3}</h3>
       </div>
-    </div>
+    </section>
   );
 }
 
 function Image2() {
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px relative shrink-0 w-full" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
-        <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgWhatsAppImage20251121At1442502} />
+    <figure ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+        <img alt="Campagna verde montagne" className="absolute inset-[16px] w-[calc(100%-32px)] h-[calc(100%-32px)] object-cover pointer-events-none" src={imgWhatsAppImage20251121At1442502} />
       </div>
-    </div>
+    </figure>
   );
 }
 
 function MaxW3() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="max w">
       <Copy1 />
       <Image2 />
-    </div>
+    </section>
   );
 }
 
 function ContenutoFotoIsolata1() {
   return (
     <article className="bg-[#fffaf4] relative shrink-0 w-full" data-name="contenuto foto isolata">
-      <div className="flex flex-col items-center justify-center size-full">
-        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full">
+      <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
+        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[40px] relative w-full" data-name="section container">
           <MaxW3 />
         </div>
       </div>
@@ -203,25 +177,27 @@ function Main() {
 }
 
 function Button() {
+  const t = useTranslation();
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
+    <button className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
       <p className="font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-left text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </button>
   );
 }
 
 function TextContent() {
+  const t = useTranslation();
   return (
-    <div className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
+    <section className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
       <div aria-hidden="true" className="absolute border-[#ad3854] border-[1px_0px_0px] border-solid inset-0 pointer-events-none" />
-      <h3 className="block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">Le prospettive d'investimento</h3>
-      <h3 className="-webkit-box font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] min-w-full overflow-ellipsis overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ fontVariationSettings: "'wdth' 100" }}>
-        La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia.
+      <h3 className="block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">{t.ilContesto.crossSections.linvestimento.title}</h3>
+      <h3 className="-webkit-box font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] min-w-full overflow-ellipsis overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ fontVariationSettings: "'wdth' 100" }} data-name="description content">
+        {t.ilContesto.crossSections.linvestimento.description} {t.ilContesto.crossSections.linvestimento.description2}
       </h3>
       <Button />
-    </div>
+    </section>
   );
 }
 
@@ -246,26 +222,28 @@ function TextBlock() {
 }
 
 function Button1() {
+  const t = useTranslation();
   return (
-    <button className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
+    <button className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0" data-name="Button">
       <p className="font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-left text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </button>
   );
 }
 
 function TextContent1() {
+  const t = useTranslation();
   return (
-    <div className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
+    <section className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
       <div aria-hidden="true" className="absolute border-[#ad3854] border-[1px_0px_0px] border-solid inset-0 pointer-events-none" />
-      <h3 className="block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">La proprietà</h3>
-      <div className="-webkit-box font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] min-w-full overflow-ellipsis overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ fontVariationSettings: "'wdth' 100" }}>
-        <h3 className="block mb-0">Corte Belle Vue dispone di quattro edifici che possono essere utilizzati in futuro sia a scopo abitativo che commerciale, si affacciano su una corte comune e sono circondati da campagna a perdita d'occhio.</h3>
-        <h3 className="block">Al centro della proprietà, la casa padronale dal fascino autentico e il suo fienile/stalla sulla destra dominano la campagna emiliana. Adiacente sulla sinistra si trova quello che una volta veniva definito il basso comodo.</h3>
+      <h3 className="block font-['EB_Garamond:Regular',sans-serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">{t.ilContesto.crossSections.laProprieta.title}</h3>
+      <div className="-webkit-box font-['Open_Sans:Regular',sans-serif] font-normal leading-[1.4] min-w-full overflow-ellipsis overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ fontVariationSettings: "'wdth' 100" }} data-name="description content">
+        <h3 className="block mb-0">{t.laProprieta.intro.title}</h3>
+        <h3 className="block">{t.laProprieta.intro.description}</h3>
       </div>
       <Button1 />
-    </div>
+    </section>
   );
 }
 
@@ -291,40 +269,41 @@ function TextBlock1() {
 
 function MaxW4() {
   return (
-    <div className="content-stretch flex flex-col gap-[24px] items-center max-w-[1120px] relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col gap-[24px] items-center max-w-[1120px] relative shrink-0 w-full" data-name="max w">
       <TextBlock />
       <TextBlock1 />
-    </div>
+    </section>
   );
 }
 
 export default function Mobile() {
+  const t = useTranslation();
   return (
     <div className="bg-[#fffaf4] content-stretch flex flex-col items-center relative size-full" data-name="Mobile">
       <Navigation isOverlaying={false} />
       <PageHeader 
-        title="Il contesto" 
-        subtitle="Un luogo ideale per vivere, creare, investire e far parte del racconto più autentico del Made in Italy."
+        title={t.ilContesto.pageTitle}
+        subtitle={t.ilContesto.pageSubtitle}
         image={imgNavheroPage}
         variant="mobile"
       />
       <Main />
       <CrossSections 
         leftCard={{
-          title: "La proprietà",
+          title: t.ilContesto.crossSections.laProprieta.title,
           description: (
             <>
-              <h3 className="block mb-0">La tenuta ha quattro edifici rurali di fine Ottocento di interesse storico-architettonico: un'elegante basso comodo interamente ristrutturato, la casa padronale con annesso importante nella sua volumetria ed una stalla-fienile con porticato d'epoca ad elle, unico nel suo genere, sono interamente da ristrutturare.</h3>
-              <h3 className="block">Il terreno che circonda gli edifici è per la maggior parte sviluppato a vigneti e in parte minore ad erba spagna.</h3>
+              <h3 className="block mb-0">{t.ilContesto.crossSections.laProprieta.description}</h3>
+              <h3 className="block">{t.ilContesto.crossSections.laProprieta.description2}</h3>
             </>
           )
         }}
         rightCard={{
-          title: "L'investimento",
+          title: t.ilContesto.crossSections.linvestimento.title,
           description: (
             <>
-              <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Ad esempio, attraverso questa suggestiva immagine realizzata con l'intelligenza artificiale, si intuisce come un fienile possa rivelare tutto il suo potenziale, trasformandosi in una dimora d'ispirazione provenzale.</h3>
-              <h3 className="block">Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia.</h3>
+              <h3 className="block mb-0">{t.ilContesto.crossSections.linvestimento.description}</h3>
+              <h3 className="block">{t.ilContesto.crossSections.linvestimento.description2}</h3>
             </>
           )
         }}

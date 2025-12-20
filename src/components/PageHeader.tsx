@@ -113,7 +113,7 @@ export default function PageHeader({ title, subtitle, image, variant }: PageHead
     <div ref={containerRef} className={`${styles.container} relative shrink-0 w-full overflow-hidden reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="navhero page">
       <div aria-hidden="true" className="absolute inset-0 bottom-[-40px] pointer-events-none overflow-hidden">
         <img 
-          alt="" 
+          alt="Paesaggio rurale campagna" 
           className="absolute max-w-none object-50%-50% object-cover size-full" 
           src={image}
           style={{

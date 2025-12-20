@@ -3,45 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import svgPaths from "../utils/svg/svg-h09w87y71k";
 import { useLanguage } from "../contexts/LanguageContext";
 import Footer from "../components/Footer";
-// Grass field images from Unsplash
-const imgHeroBanner = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=778&fit=crop";
-const imgImg = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=672&h=380&fit=crop";
-const imgPlayer = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=672&h=380&fit=crop";
-const imgImage1 = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=544&h=544&fit=crop";
-const imgImage2 = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=544&h=544&fit=crop";
-const imgImage3 = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=544&h=544&fit=crop";
-// YouTube video ID - replace with your actual video ID
-const youtubeVideoId = "dQw4w9WgXcQ";
-
-// Hook to detect when element is in view (replayable)
-function useInView() {
-  const [isInView, setIsInView] = useState(false);
-  const [wasInView, setWasInView] = useState(false);
-  const [ref, setRef] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!ref) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !wasInView) {
-          setIsInView(true);
-          setWasInView(true);
-        } else if (!entry.isIntersecting && wasInView) {
-          // Reset when leaving viewport to allow replay
-          setIsInView(false);
-          setWasInView(false);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(ref);
-    return () => observer.disconnect();
-  }, [ref, wasInView]);
-
-  return [setRef, isInView] as const;
-}
+import { useInView } from "../hooks/useInView";
+import { useTranslation } from "../hooks/useTranslation";
+import VideoPlayer from "../components/VideoPlayer";
+import imgHeroBanner from "../../assets/photos/homepage/Hero.jpg";
+import imgImage1 from "../../assets/photos/homepage/Photo 1.jpeg";
+import imgImage2 from "../../assets/photos/homepage/Photo 3.jpg";
+import imgImage3 from "../../assets/photos/homepage/Photo 2.png";
+import imgPlayer from "../../assets/photos/homepage/Photo 3.jpg";
+import videoSrc from "../../assets/photos/homepage/video.mp4";
 
 function Icons({ isOverlaying, onClick, isMenuOpen }: { isOverlaying: boolean; onClick: () => void; isMenuOpen: boolean }) {
   // X icon path for 32x32 viewBox - centered X shape
@@ -77,13 +47,14 @@ function Icons({ isOverlaying, onClick, isMenuOpen }: { isOverlaying: boolean; o
 }
 
 function Title({ isOverlaying }: { isOverlaying: boolean }) {
+  const t = useTranslation();
   return (
     <a href="/" className="content-stretch flex flex-col gap-[8px] items-center justify-center leading-[0] relative shrink-0 text-center text-nowrap cursor-pointer" data-name="title">
       <div className={`flex flex-col font-['EB Garamond',serif] font-normal justify-center relative shrink-0 transition-colors duration-500 ease-in-out ${isOverlaying ? 'text-[#F6EEE5]' : 'text-[#ad3854]'} text-[32px]`}>
-        <p className="leading-[1.1] text-nowrap whitespace-pre">Corte Belle Vue</p>
+        <p className="leading-[1.1] text-nowrap whitespace-pre">{t.common.siteName}</p>
       </div>
       <div className={`flex flex-col font-['Open Sans',sans-serif] font-semibold justify-center relative shrink-0 transition-colors duration-500 ease-in-out ${isOverlaying ? 'text-[#F6EEE5]' : 'text-[#714b55]'} text-[16px] tracking-[1.6px] uppercase`} style={{ fontVariationSettings: "'wdth' 100" }}>
-        <p className="leading-[1.1] text-nowrap whitespace-pre">COUNTRY PROPERTY FOR SALE</p>
+        <p className="leading-[1.1] text-nowrap whitespace-pre">{t.common.siteSubtitle}</p>
       </div>
     </a>
   );
@@ -91,7 +62,8 @@ function Title({ isOverlaying }: { isOverlaying: boolean }) {
 
 function Frame1({ isOverlaying }: { isOverlaying: boolean }) {
   const { language } = useLanguage();
-  const label = language === 'it' ? 'ENG' : 'ITA';
+  const t = useTranslation();
+  const label = language === 'it' ? t.common.buttons.languageToggle.eng : t.common.buttons.languageToggle.ita;
   
   return (
     <div className="content-stretch flex gap-[8px] h-[24px] items-center justify-center relative shrink-0 w-full">
@@ -118,6 +90,7 @@ function NavButton({ isOverlaying }: { isOverlaying: boolean }) {
 
 function Menu({ isOverlaying, isOpen, onClose }: { isOverlaying: boolean; isOpen: boolean; onClose: () => void }) {
   const location = useLocation();
+  const t = useTranslation();
   
   return (
     <>
@@ -136,7 +109,7 @@ function Menu({ isOverlaying, isOpen, onClose }: { isOverlaying: boolean; isOpen
             style={{ fontVariationSettings: "'wdth' 100" }}
           >
             <span className={`inline-block relative ${location.pathname === "/la-proprieta" ? 'after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#714B55]' : ''}`}>
-              La proprietà
+              {t.common.navigation.laProprieta}
             </span>
           </Link>
           <Link 
@@ -146,7 +119,7 @@ function Menu({ isOverlaying, isOpen, onClose }: { isOverlaying: boolean; isOpen
             style={{ fontVariationSettings: "'wdth' 100" }}
           >
             <span className={`inline-block relative ${location.pathname === "/linvestimento" ? 'after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#714B55]' : ''}`}>
-              L'investimento
+              {t.common.navigation.linvestimento}
             </span>
           </Link>
           <Link 
@@ -156,7 +129,7 @@ function Menu({ isOverlaying, isOpen, onClose }: { isOverlaying: boolean; isOpen
             style={{ fontVariationSettings: "'wdth' 100" }}
           >
             <span className={`inline-block relative ${location.pathname === "/il-contesto" ? 'after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#714B55]' : ''}`}>
-              Il contesto
+              {t.common.navigation.ilContesto}
             </span>
           </Link>
         </div>
@@ -180,9 +153,12 @@ export function Navigation({ isOverlaying }: { isOverlaying: boolean }) {
 
   return (
     <>
-      <header className={`transition-all duration-300 ease-in-out ${isOverlaying ? 'bg-transparent' : 'bg-[#f6eee5]'} sticky top-0 z-[100] ${isOverlaying ? '' : 'shadow-[0px_0px_24px_0px_rgba(89,54,21,0.15)]'} shrink-0 w-full relative`} data-name="Navigation">
+      <header className={`transition-all duration-300 ease-in-out ${isOverlaying ? 'bg-[rgba(246,238,229,0.7)] backdrop-blur-sm' : 'bg-[#f6eee5]'} sticky top-0 z-[100] ${isOverlaying ? '' : 'shadow-[0px_0px_24px_0px_rgba(89,54,21,0.15)]'} shrink-0 w-full relative`} data-name="Navigation">
         {isOverlaying && (
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#F6EEE5] transition-opacity duration-300 ease-in-out" />
+          <>
+            <div className="absolute top-0 left-0 right-0 bottom-[-24px] pointer-events-none" style={{ backgroundImage: "linear-gradient(-4.26326e-14deg, rgba(26, 110, 166, 0) 0%, rgba(26, 110, 166, 0.9) 100%)" }} />
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#F6EEE5] transition-opacity duration-300 ease-in-out z-[1]" />
+          </>
         )}
         <div className="size-full">
           <div className="content-stretch flex flex-col items-start px-[64px] py-[16px] relative w-full">
@@ -196,14 +172,15 @@ export function Navigation({ isOverlaying }: { isOverlaying: boolean }) {
 }
 
 function Container() {
+  const t = useTranslation();
   return (
-    <div className="relative shrink-0 w-full" data-name="container">
-      <div className="flex flex-col items-center justify-center size-full">
-        <div className="content-stretch flex flex-col items-center justify-center px-[64px] py-[104px] relative w-full">
-          <p className="[text-shadow:rgba(0,0,0,0.35)_2px_2px_7px] font-['EB Garamond',serif] font-normal leading-[1.15] max-w-[1120px] relative shrink-0 text-[#f6eee5] text-[32px] text-center w-full">Corte Belle Vue ha in sé il potenziale di adattarsi a progetti imprenditoriali o residenziali di ogni scala</p>
+    <section className="relative shrink-0 w-full" data-name="container">
+      <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
+        <div className="content-stretch flex flex-col items-center justify-center px-[64px] py-[104px] relative w-full" data-name="section container">
+          <p className="[text-shadow:rgba(0,0,0,0.35)_2px_2px_7px] font-['EB Garamond',serif] font-normal leading-[1.15] max-w-[1120px] relative shrink-0 text-[#f6eee5] text-[32px] text-center w-full">{t.home.hero.title}</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -228,12 +205,12 @@ function HeroBanner() {
     <header className="content-stretch flex flex-col h-[778px] items-center justify-end p-0 relative shrink-0 w-full z-[1] overflow-hidden" data-name="hero banner">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <img 
-          alt="Landscape" 
-          className="absolute max-w-none object-50%-50% object-cover size-full" 
+          alt="Proprietà emiliana campagna" 
+          className="absolute max-w-none object-bottom object-cover size-full" 
           src={imgHeroBanner}
           style={{ transform: `translateY(${parallaxOffset}px)` }}
         />
-        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(4, 18, 3, 0) 69.231%, rgba(4, 18, 3, 0.8) 100%), linear-gradient(-4.26326e-14deg, rgba(26, 110, 166, 0) 76.923%, rgba(26, 110, 166, 0.9) 100%)" }} />
+        <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(4, 18, 3, 0) 69.231%, rgba(4, 18, 3, 0.8) 100%)" }} />
       </div>
       <Container />
     </header>
@@ -344,11 +321,12 @@ function Illustrazione() {
 }
 
 function Testo() {
+  const t = useTranslation();
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 text-center w-full" data-name="testo">
-      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] relative shrink-0 text-[#714b55] text-[32px] w-full">A pochi chilometri da Modena, tra le morbide colline e i filari di Lambrusco e Trebbiano di Spagna, si estende una proprietà unica nel suo genere: dieci ettari di autentica bellezza emiliana, dove il tempo rallenta e il paesaggio racconta storie di gusto, passione e ospitalità.</h3>
+      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] relative shrink-0 text-[#714b55] text-[32px] w-full">{t.home.apertura.title}</h3>
       <h3 className="block font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#ad3854] text-[14px] tracking-[0.7px] uppercase w-full" style={{ fontVariationSettings: "'wdth' 100" }}>
-        corte belle vue
+        {t.home.apertura.subtitle}
       </h3>
     </div>
   );
@@ -356,7 +334,7 @@ function Testo() {
 
 function MaxW1() {
   return (
-    <div className="max-w-[1120px] relative shrink-0 w-full z-[1]" data-name="max w">
+    <section className="max-w-[1120px] relative shrink-0 w-full z-[1]" data-name="max w">
       <div aria-hidden="true" className="absolute border-t-[1px] border-b-[1px] border-[#AD3854] border-solid inset-0 pointer-events-none" />
       <div className="flex flex-col items-center max-w-[inherit] size-full">
         <div className="content-stretch flex flex-col gap-[40px] items-center max-w-[inherit] p-[64px] relative w-full">
@@ -364,7 +342,7 @@ function MaxW1() {
           <Testo />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -377,14 +355,6 @@ function Apertura() {
         </div>
       </div>
     </div>
-  );
-}
-
-function Img() {
-  return (
-    <header className="aspect-[672/379.944] block mb-[-60px] relative shrink-0 w-full" data-name="img">
-      <img alt="Landscape of Santorini, Greece" className="absolute inset-0 max-w-none object-50%-50% object-contain pointer-events-none size-full" src={imgImg} />
-    </header>
   );
 }
 
@@ -424,7 +394,7 @@ function Frame() {
 function Player() {
   return (
     <div className="mb-[-60px] relative shrink-0 w-full" data-name="player">
-      <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPlayer} />
+      <img alt="Sfondo video player" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgPlayer} />
       <div className="flex flex-col justify-center size-full">
         <div className="content-stretch flex flex-col gap-[8px] items-start justify-center pb-[8px] pt-[16px] px-[8px] relative w-full">
           <div className="h-[4px] shrink-0 w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 35.577%, rgba(255, 255, 255, 0) 35.587%), linear-gradient(90deg, rgb(68, 68, 68) 0%, rgb(68, 68, 68) 100%)" }} />
@@ -435,23 +405,9 @@ function Player() {
   );
 }
 
-function VideoPlayer() {
-  const [ref, isInView] = useInView();
-  
-  // Build YouTube URL with autoplay (when in view), mute, and loop
-  const youtubeUrl = `https://www.youtube.com/embed/${youtubeVideoId}?rel=0&mute=1&loop=1&playlist=${youtubeVideoId}${isInView ? '&autoplay=1' : ''}`;
-  
+function VideoPlayerWrapper() {
   return (
-    <div ref={ref} className="content-stretch flex flex-col items-center justify-center relative shrink-0 w-full max-w-[1120px] mx-auto px-[64px]" data-name="video player">
-      <iframe
-        className="w-full"
-        style={{ aspectRatio: '16/9', minHeight: '400px' }}
-        src={youtubeUrl}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
-    </div>
+    <VideoPlayer videoSrc={videoSrc} paddingX="px-[64px]" />
   );
 }
 
@@ -459,7 +415,7 @@ function Video() {
   const [ref, isInView] = useInView();
   return (
     <div ref={ref} className={`aspect-[800/452.315] content-stretch flex flex-col items-center relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="video">
-      <VideoPlayer />
+      <VideoPlayerWrapper />
     </div>
   );
 }
@@ -468,30 +424,32 @@ function Image() {
   return (
     <div className="aspect-[544/544] content-stretch flex items-center justify-center mb-[-64px] relative shrink-0 w-full" data-name="image">
       <div className="aspect-[348/348] basis-0 grow min-h-px min-w-px relative shrink-0" data-name="Image 1">
-        <img alt="santorini neighborhood" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage1} />
+        <img alt="Proprietà edifici rurali" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage1} />
       </div>
     </div>
   );
 }
 
 function Button() {
+  const t = useTranslation();
   return (
-    <Link to="/la-proprieta" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
+    <Link to="/la-proprieta" className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#953C52] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </Link>
   );
 }
 
 function TextContent() {
+  const t = useTranslation();
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
       <div aria-hidden="true" className="absolute border-t-[1px] border-[#AD3854] border-solid inset-0 pointer-events-none" />
-      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">La proprietà</h3>
+      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">{t.home.sections.laProprieta.title}</h3>
       <div className="font-['Open Sans',sans-serif] font-normal leading-[1.4] min-w-full not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ display: '-webkit-box', WebkitLineClamp: 10, WebkitBoxOrient: 'vertical' }}>
-        <h3 className="block mb-0">La tenuta ha quattro edifici rurali di fine Ottocento di interesse storico-architettonico: un’elegante basso comodo interamente ristrutturato, la casa padronale con annesso importante nella sua volumetria ed una stalla-fienile con porticato d’epoca ad elle, unico nel suo genere, sono interamente da ristrutturare.</h3>
-        <h3 className="block">Il terreno che circonda gli edifici è per la maggior parte sviluppato a vigneti e in parte minore ad erba spagna.</h3>
+        <h3 className="block mb-0">{t.home.sections.laProprieta.description}</h3>
+        <h3 className="block">{t.home.sections.laProprieta.description2}</h3>
       </div>
       <Button />
     </div>
@@ -524,10 +482,10 @@ function TextBlock() {
 
 function MaxW2() {
   return (
-    <div className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
       <Image />
       <TextBlock />
-    </div>
+    </section>
   );
 }
 
@@ -535,8 +493,8 @@ function ContenutoLancio() {
   const [ref, isInView] = useInView();
   return (
     <article ref={ref} className={`relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="contenuto lancio">
-      <div className="flex flex-col items-center justify-center size-full">
-        <div className="content-stretch flex flex-col items-center justify-center p-[64px] relative w-full">
+      <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
+        <div className="content-stretch flex flex-col items-center justify-center p-[64px] relative w-full" data-name="section container">
           <MaxW2 />
         </div>
       </div>
@@ -546,30 +504,32 @@ function ContenutoLancio() {
 
 function Image1() {
   return (
-    <div className="aspect-[544/544] content-stretch flex items-center justify-center mb-[-64px] relative shrink-0 w-full" data-name="image">
+    <figure className="aspect-[544/544] content-stretch flex items-center justify-center mb-[-64px] relative shrink-0 w-full" data-name="image">
       <div className="aspect-[348/348] basis-0 grow min-h-px min-w-px relative shrink-0" data-name="Image 1">
-        <img alt="santorini neighborhood" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage2} />
+        <img alt="Contesto eccellenze italiane" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage2} />
       </div>
-    </div>
+    </figure>
   );
 }
 
 function Button1() {
+  const t = useTranslation();
   return (
-    <Link to="/il-contesto" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
+    <Link to="/il-contesto" className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#953C52] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </Link>
   );
 }
 
 function TextContent1() {
+  const t = useTranslation();
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
       <div aria-hidden="true" className="absolute border-t-[1px] border-[#AD3854] border-solid inset-0 pointer-events-none" />
-      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">Il contesto</h3>
-      <h3 className="block font-['Open Sans',sans-serif] font-normal leading-[1.4] min-w-full not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ display: '-webkit-box', WebkitLineClamp: 10, WebkitBoxOrient: 'vertical' }}>Il contesto circostante è una vetrina di eccellenze mondiali: a pochi minuti si trova la sede della Ferrari Spa Formula 1, Pagani Spa auto di lusso, l’Osteria Francescana di Massimo Bottura, le acetaie storiche di Modena e il distretto della ceramica di Sassuolo. Corte Belle Vue sorge in un territorio unico, dove heritage e innovazione convivono armoniosamente, raccontando l’essenza del Made in Italy e di uno stile di vita legato alle tradizioni e ad un patrimonio culturale unico al mondo.</h3>
+      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">{t.home.sections.ilContesto.title}</h3>
+      <h3 className="block font-['Open Sans',sans-serif] font-normal leading-[1.4] min-w-full not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ display: '-webkit-box', WebkitLineClamp: 10, WebkitBoxOrient: 'vertical' }}>{t.home.sections.ilContesto.description}</h3>
       <Button1 />
     </div>
   );
@@ -601,10 +561,10 @@ function TextBlock1() {
 
 function MaxW3() {
   return (
-    <div className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
       <Image1 />
       <TextBlock1 />
-    </div>
+    </section>
   );
 }
 
@@ -623,33 +583,35 @@ function ContenutoLancio1() {
 
 function Image2() {
   return (
-    <div className="aspect-[544/544] content-stretch flex items-center justify-center mb-[-64px] relative shrink-0 w-full" data-name="image">
+    <figure className="aspect-[544/544] content-stretch flex items-center justify-center mb-[-64px] relative shrink-0 w-full" data-name="image">
       <div aria-hidden="true" className="absolute border border-black border-solid inset-0 pointer-events-none" />
       <div className="aspect-[348/348] basis-0 grow min-h-px min-w-px relative shrink-0" data-name="Image 1">
-        <img alt="santorini neighborhood" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage3} />
+        <img alt="Investimento proprietà emiliana" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage3} />
       </div>
-    </div>
+    </figure>
   );
 }
 
 function Button2() {
+  const t = useTranslation();
   return (
-    <Link to="/linvestimento" className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" data-name="Button">
+    <Link to="/linvestimento" className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#953C52] transition-colors duration-200" data-name="Button">
       <p className="font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </Link>
   );
 }
 
 function TextContent2() {
+  const t = useTranslation();
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start pb-0 pt-[24px] px-0 relative shrink-0 w-full" data-name="Text content">
       <div aria-hidden="true" className="absolute border-t-[1px] border-[#AD3854] border-solid inset-0 pointer-events-none" />
-      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">Prospettive d’investimento</h3>
+      <h3 className="block font-['EB Garamond',serif] font-normal leading-[1.15] min-w-full relative shrink-0 text-[#ad3854] text-[32px] w-[min-content]">{t.home.sections.prospettiveInvestimento.title}</h3>
       <div className="font-['Open Sans',sans-serif] font-normal leading-[1.4] min-w-full not-italic overflow-hidden relative shrink-0 text-[#333333] text-[18px] w-[min-content]" style={{ display: '-webkit-box', WebkitLineClamp: 10, WebkitBoxOrient: 'vertical' }}>
-        <h3 className="block mb-0">La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Ad esempio, attraverso questa suggestiva immagine realizzata con l’intelligenza artificiale, si intuisce come un fienile possa rivelare tutto il suo potenziale, trasformandosi in una dimora d’ispirazione provenzale.</h3>
-        <h3 className="block">Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell’Emilia.</h3>
+        <h3 className="block mb-0">{t.home.sections.prospettiveInvestimento.description}</h3>
+        <h3 className="block">{t.home.sections.prospettiveInvestimento.description2}</h3>
       </div>
       <Button2 />
     </div>
@@ -682,10 +644,10 @@ function TextBlock2() {
 
 function MaxW4() {
   return (
-    <div className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
+    <section className="content-stretch flex flex-col items-center max-w-[1120px] pb-[64px] pt-0 px-0 relative shrink-0 w-full" data-name="max w">
       <Image2 />
       <TextBlock2 />
-    </div>
+    </section>
   );
 }
 
@@ -703,10 +665,11 @@ function ContenutoLancio2() {
 }
 
 function MaxW5() {
+  const t = useTranslation();
   return (
     <div className="content-stretch flex items-center justify-center max-w-[1120px] px-0 py-[64px] relative shrink-0 w-full" data-name="max w">
       <div aria-hidden="true" className="absolute border-t-[1px] border-b-[1px] border-[#AD3854] border-solid inset-0 pointer-events-none" />
-      <h3 className="basis-0 block font-['EB Garamond',serif] font-normal grow leading-[1.15] min-h-px min-w-px relative shrink-0 text-[#714b55] text-[32px] text-center">A Corte Bellevue l’autenticità incontra l’eleganza, la tranquillità si fonde con la vitalità economica e ogni prospettiva: turistica, residenziale o imprenditoriale, trova terreno fertile per crescere.</h3>
+      <h3 className="basis-0 block font-['EB Garamond',serif] font-normal grow leading-[1.15] min-h-px min-w-px relative shrink-0 text-[#714b55] text-[32px] text-center">{t.home.chiusura.text}</h3>
     </div>
   );
 }
@@ -726,7 +689,7 @@ function Chiusura() {
 
 function Main() {
   return (
-    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[685px]" data-name="main" tabIndex="-1">
+    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[698px]" data-name="main" tabIndex={-1}>
       <Apertura />
       <Video />
       <ContenutoLancio />

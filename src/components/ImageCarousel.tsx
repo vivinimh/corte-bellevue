@@ -14,327 +14,230 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({
   images,
-  initialIndex = 1,
+  initialIndex = 0,
   variant = "desktop",
   previousIconPath,
   nextIconPath,
-  mainImageAspectRatio = variant === "desktop" ? "aspect-[1280/706]" : "aspect-[725.209/400]",
+  mainImageAspectRatio,
 }: ImageCarouselProps) {
-  const isMobileOrTablet = variant === "tablet" || variant === "mobile";
   // Ensure initialIndex is within bounds
   const safeInitialIndex = images.length > 0 ? Math.max(0, Math.min(initialIndex, images.length - 1)) : 0;
   const [currentIndex, setCurrentIndex] = useState(safeInitialIndex);
-  const [displayIndex, setDisplayIndex] = useState(safeInitialIndex);
-  const [fadeOut, setFadeOut] = useState(false);
-  const [fadeIn, setFadeIn] = useState(false);
-  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
   
-  // Swipe handling for tablet and mobile with drag effect
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const touchStartX = useRef<number>(0);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const dragOffsetRef = useRef(0);
-  const currentIndexRef = useRef(safeInitialIndex);
-  const isDraggingRef = useRef(false);
-  const listenersAttachedRef = useRef(false);
-  
-  // Keep refs in sync
-  useEffect(() => {
-    currentIndexRef.current = currentIndex;
-  }, [currentIndex]);
-
-  // Handle cross-fade when index changes
-  useEffect(() => {
-    if (currentIndex !== displayIndex) {
-      setPreviousIndex(displayIndex);
-      setFadeOut(false);
-      setFadeIn(false);
-      // Start fade out after render
-      const startFadeOut = requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setFadeOut(true);
-        });
-      });
-      // After fade out completes (2s), start fade in
-      const startFadeIn = setTimeout(() => {
-        setFadeIn(true);
-      }, 2000);
-      // After fade in completes (another 2s), update displayIndex and clear previous
-      const endTimer = setTimeout(() => {
-        setDisplayIndex(currentIndex);
-        setFadeOut(false);
-        setFadeIn(false);
-        setPreviousIndex(null);
-      }, 4000); // Total: 2s fade out + 2s fade in
-      return () => {
-        cancelAnimationFrame(startFadeOut);
-        clearTimeout(startFadeIn);
-        clearTimeout(endTimer);
-      };
-    }
-  }, [currentIndex, displayIndex]);
-  
-  useEffect(() => {
-    dragOffsetRef.current = dragOffset;
-  }, [dragOffset]);
-  
-  // Store images.length in ref to avoid recreating handlers
-  const imagesLengthRef = useRef(images.length);
-  useEffect(() => {
-    imagesLengthRef.current = images.length;
-  }, [images.length]);
-
-  // Attach touch listeners for mobile/tablet - using useEffect like Trendyol approach
-  useEffect(() => {
-    if (!isMobileOrTablet || !containerRef.current) return;
-    
-    const el = containerRef.current;
-    
-    const touchStartHandler = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      touchStartX.current = touch.clientX;
-      setIsDragging(true);
-      isDraggingRef.current = true;
-      setDragOffset(0);
-      dragOffsetRef.current = 0;
-    };
-    
-    const touchMoveHandler = (e: TouchEvent) => {
-      if (!isDraggingRef.current || !containerRef.current) return;
-      
-      e.preventDefault();
-      const currentX = e.touches[0].clientX;
-      const diff = currentX - touchStartX.current;
-      const containerWidth = containerRef.current.offsetWidth || 0;
-      
-      if (containerWidth > 0) {
-        const offsetPercent = (diff / containerWidth) * 100;
-        const clampedOffset = Math.max(-100, Math.min(100, offsetPercent));
-        setDragOffset(clampedOffset);
-        dragOffsetRef.current = clampedOffset;
-      }
-    };
-    
-    const touchEndHandler = () => {
-      const currentOffset = dragOffsetRef.current;
-      const thresholdPercent = 25;
-      const absOffset = Math.abs(currentOffset);
-      
-      setIsDragging(false);
-      isDraggingRef.current = false;
-      
-      if (absOffset > thresholdPercent) {
-        if (currentOffset < 0) {
-          const currentIdx = currentIndexRef.current;
-          const next = currentIdx === imagesLengthRef.current - 1 ? 0 : currentIdx + 1;
-          setCurrentIndex(next);
-        } else {
-          const currentIdx = currentIndexRef.current;
-          const next = currentIdx === 0 ? imagesLengthRef.current - 1 : currentIdx - 1;
-          setCurrentIndex(next);
-        }
-        setDragOffset(0);
-        dragOffsetRef.current = 0;
-      } else {
-        setDragOffset(0);
-        dragOffsetRef.current = 0;
-      }
-      
-      touchStartX.current = 0;
-    };
-    
-    el.addEventListener('touchstart', touchStartHandler, { passive: false });
-    el.addEventListener('touchmove', touchMoveHandler, { passive: false });
-    el.addEventListener('touchend', touchEndHandler, { passive: false });
-    
-    return () => {
-      el.removeEventListener('touchstart', touchStartHandler, { passive: false } as any);
-      el.removeEventListener('touchmove', touchMoveHandler, { passive: false } as any);
-      el.removeEventListener('touchend', touchEndHandler, { passive: false } as any);
-    };
-  }, [isMobileOrTablet]);
+  // Swipe handling for tablet and mobile
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    setDragOffset(0);
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    setDragOffset(0);
+  }
+
+  // Minimum swipe distance (in pixels) to trigger navigation
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
   };
 
-  // Desktop image component (used for all variants)
-  function MainImage({ src }: { src: string }) {
-    const innerAspectRatio = variant === "desktop" ? "aspect-[1016/560]" : "aspect-[725.209/400]";
-    const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-    const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
     
-    // For tablet/mobile, always show all three images (prev, current, next) for smooth dragging
-    if (isMobileOrTablet) {
-      return (
-        <div 
-          ref={containerRef}
-          className={`${mainImageAspectRatio} content-stretch flex flex-col items-start overflow-hidden relative shrink-0 w-full`} 
-          data-name="image"
-          style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
-        >
-          <div className={`${innerAspectRatio} relative shrink-0 w-full`} data-name="image">
-            {/* Previous image */}
-            <img 
-              alt="" 
-              className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
-              src={images[prevIndex]} 
-              draggable={false}
-              style={{
-                transform: `translateX(${-100 + dragOffset}%)`,
-                transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              }}
-            />
-            {/* Current image */}
-            <img 
-              alt="" 
-              className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
-              src={src} 
-              draggable={false}
-              style={{
-                transform: `translateX(${dragOffset}%)`,
-                transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              }}
-            />
-            {/* Next image */}
-            <img 
-              alt="" 
-              className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
-              src={images[nextIndex]} 
-              draggable={false}
-              style={{
-                transform: `translateX(${100 + dragOffset}%)`,
-                transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-              }}
-            />
-          </div>
-        </div>
-      );
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      handleNext();
     }
+    if (isRightSwipe) {
+      handlePrevious();
+    }
+  };
+
+
+  // Get variant-specific styles
+  // Note: aspect ratios are kept the same across all variants
+  const getVariantStyles = () => {
+    const baseAspectRatio = mainImageAspectRatio || "aspect-[1280/706]";
+    const baseInnerAspectRatio = "aspect-[1016/560]";
     
-    // Desktop view with cross-fade
-    const isTransitioning = displayIndex !== currentIndex;
-    const showPrevious = previousIndex !== null || isTransitioning;
-    const prevImageIndex = previousIndex !== null ? previousIndex : displayIndex;
+    switch (variant) {
+      case "desktop":
+        return {
+          mainAspectRatio: baseAspectRatio,
+          innerAspectRatio: baseInnerAspectRatio,
+          imageMarginBottom: "mb-[-88px]",
+          controlsMarginBottom: "mb-[-88px]",
+          controlsPadding: "pb-[88px]",
+          buttonPadding: "px-[24px] py-[16px]",
+          buttonGap: "gap-[24px]",
+          iconSize: "size-[24px]",
+          textSize: "text-[16px]",
+          controlsPaddingInner: "p-[16px]",
+        };
+      case "tablet":
+        return {
+          mainAspectRatio: baseAspectRatio,
+          innerAspectRatio: baseInnerAspectRatio,
+          imageMarginBottom: "mb-[-88px]",
+          controlsMarginBottom: "mb-[-88px]",
+          controlsPadding: "pb-[88px]",
+          buttonPadding: "px-[20px] py-[12px]",
+          buttonGap: "gap-[16px]",
+          iconSize: "size-[20px]",
+          textSize: "text-[14px]",
+          controlsPaddingInner: "p-[12px]",
+        };
+      case "mobile":
+        return {
+          mainAspectRatio: baseAspectRatio,
+          innerAspectRatio: baseInnerAspectRatio,
+          imageMarginBottom: "mb-[-88px]",
+          controlsMarginBottom: "mb-[-88px]",
+          controlsPadding: "pb-[88px]",
+          buttonPadding: "px-[16px] py-[12px]",
+          buttonGap: "gap-[12px]",
+          iconSize: "size-[20px]",
+          textSize: "text-[14px]",
+          controlsPaddingInner: "p-[12px]",
+        };
+    }
+  };
+
+  const styles = getVariantStyles();
+
+  // Counter component for tablet and mobile (positioned to not interfere with swipe)
+  function ImageCounter() {
+    if (variant === "desktop") return null;
     
     return (
       <div 
-        ref={containerRef}
-        className={`${mainImageAspectRatio} content-stretch flex flex-col items-start mb-[-88px] overflow-clip relative shrink-0 w-full`} 
-        data-name="image"
+        className="absolute top-4 right-4 z-10 pointer-events-none"
+        data-name="counter"
       >
-        <div className={`${innerAspectRatio} relative shrink-0 w-full`} data-name="image">
-          {/* Previous image fading out */}
-          {showPrevious && (
-            <img 
-              alt="" 
-              className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
-              src={images[prevImageIndex]} 
-              draggable={false}
-              style={{
-                opacity: fadeOut ? 0 : 1,
-                transition: 'opacity 2s ease-in-out',
-              }}
-            />
-          )}
-          {/* Current image fading in */}
+        <span className={`font-['Open_Sans:Regular',sans-serif] text-white ${styles.textSize} leading-[1.5] [text-shadow:rgba(0,0,0,0.7)_1px_1px_4px] bg-black/30 px-3 py-1.5 rounded-md`}>
+          {currentIndex + 1} / {images.length}
+        </span>
+      </div>
+    );
+  }
+
+  // Image component with variant-specific styling
+  function MainImage({ src }: { src: string }) {
+    // For tablet and mobile, no negative margin needed since there are no controls
+    const imageMargin = variant === "desktop" ? styles.imageMarginBottom : "mb-0";
+    
+    return (
+      <div 
+        ref={variant !== "desktop" ? imageContainerRef : null}
+        className={`${styles.mainAspectRatio} content-stretch flex flex-col items-start ${imageMargin} overflow-clip relative shrink-0 w-full`} 
+        data-name="image"
+        onTouchStart={variant !== "desktop" ? onTouchStart : undefined}
+        onTouchMove={variant !== "desktop" ? onTouchMove : undefined}
+        onTouchEnd={variant !== "desktop" ? onTouchEnd : undefined}
+      >
+        <div className={`${styles.innerAspectRatio} relative shrink-0 w-full`} data-name="image">
           <img 
             alt="" 
             className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full"
             src={src} 
             draggable={false}
-            style={{
-              opacity: isTransitioning || previousIndex !== null ? (fadeIn ? 1 : 0) : 1,
-              transition: (isTransitioning || previousIndex !== null) ? 'opacity 2s ease-in-out' : 'none',
-            }}
           />
         </div>
+        <ImageCounter />
       </div>
     );
   }
 
-  // Navigation button icons
+  // Default arrow icons for tablet and mobile
+  function DefaultPreviousIcon() {
+    return (
+      <div className={`relative shrink-0 ${styles.iconSize}`} data-name="icons">
+        <svg className="block size-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </div>
+    );
+  }
+
+  function DefaultNextIcon() {
+    return (
+      <div className={`relative shrink-0 ${styles.iconSize}`} data-name="icons">
+        <svg className="block size-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    );
+  }
+
+  // Navigation button icons (custom for desktop, default for tablet/mobile)
   function PreviousIcon() {
-    if (!previousIconPath) return null;
-    return (
-      <div className="relative shrink-0 size-[24px]" data-name="icons">
-        <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-          <g id="icons">
-            <path d={previousIconPath} fill="var(--fill-0, #F6EEE5)" id="Union" />
-          </g>
-        </svg>
-      </div>
-    );
-  }
-
-  function NextIcon() {
-    if (!nextIconPath) return null;
-    return (
-      <div className="relative shrink-0 size-[24px]" data-name="icons">
-        <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
-          <g id="icons">
-            <path d={nextIconPath} fill="var(--fill-0, #FFFAF4)" id="Union" />
-          </g>
-        </svg>
-      </div>
-    );
-  }
-
-  // Image counter (shown on all variants)
-  function ImageCounter() {
-    if (isMobileOrTablet) {
+    if (variant === "desktop" && previousIconPath) {
       return (
-        <div 
-          className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none" 
-          data-name="image-counter"
-          style={{ touchAction: 'none', WebkitTouchCallout: 'none' }}
-        >
-          {/* Gradient overlay for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none" />
-          {/* Counter text */}
-          <div className="relative flex flex-row items-center justify-center p-[16px] pointer-events-none">
-            <span className="font-['Open_Sans:Regular',sans-serif] text-white text-[16px] leading-[1.5] [text-shadow:rgba(0,0,0,0.5)_1px_1px_3px] pointer-events-none">
-              {currentIndex + 1} / {images.length}
-            </span>
-          </div>
+        <div className={`relative shrink-0 ${styles.iconSize}`} data-name="icons">
+          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+            <g id="icons">
+              <path d={previousIconPath} fill="var(--fill-0, #F6EEE5)" id="Union" />
+            </g>
+          </svg>
         </div>
       );
     }
-    return null; // On desktop, counter is shown in NavigationButtons
+    return <DefaultPreviousIcon />;
   }
 
-  // Navigation buttons (only show if icons are provided and on desktop)
+  function NextIcon() {
+    if (variant === "desktop" && nextIconPath) {
+      return (
+        <div className={`relative shrink-0 ${styles.iconSize}`} data-name="icons">
+          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 24 24">
+            <g id="icons">
+              <path d={nextIconPath} fill="var(--fill-0, #FFFAF4)" id="Union" />
+            </g>
+          </svg>
+        </div>
+      );
+    }
+    return <DefaultNextIcon />;
+  }
+
+  // Navigation buttons with variant-specific styling
+  // Only shown on desktop variant
   function NavigationButtons({ onPrevious, onNext }: { onPrevious: () => void; onNext: () => void }) {
-    if (!previousIconPath || !nextIconPath || isMobileOrTablet) return null;
+    // Hide navigation for tablet and mobile
+    if (variant !== "desktop") return null;
 
     return (
-      <div className="mb-[-88px] relative shrink-0 w-full" data-name="controls">
+      <div className={`${styles.controlsMarginBottom} relative shrink-0 w-full`} data-name="controls">
         {/* Transparent gradient overlay for button contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none" />
         <div className="flex flex-row items-end justify-center size-full">
-          <div className="content-stretch flex gap-[24px] items-center justify-center p-[16px] relative w-full">
+          <div className={`content-stretch flex ${styles.buttonGap} items-center justify-center ${styles.controlsPaddingInner} relative w-full`}>
             <button
               aria-label="View previous image"
-              className="bg-[#714b55] content-stretch flex gap-[10px] items-center justify-center px-[24px] py-[16px] relative shrink-0 cursor-pointer"
+              className={`bg-[#CA427D] content-stretch flex gap-[10px] items-center justify-center ${styles.buttonPadding} relative shrink-0 cursor-pointer hover:bg-[#953C52] active:bg-[#7a2f41] transition-colors duration-200 touch-manipulation`}
               data-name="Button"
               onClick={onPrevious}
             >
               <div aria-hidden="true" className="absolute border-2 border-[#f6eee5] border-solid inset-0 pointer-events-none" />
               <PreviousIcon />
             </button>
-            <span className="font-['Open_Sans:Regular',sans-serif] text-white text-[16px] leading-[1.5] [text-shadow:rgba(0,0,0,0.5)_1px_1px_3px]">
+            <span className={`font-['Open_Sans:Regular',sans-serif] text-white ${styles.textSize} leading-[1.5] [text-shadow:rgba(0,0,0,0.5)_1px_1px_3px]`}>
               {currentIndex + 1} / {images.length}
             </span>
             <button
               aria-label="View next image"
-              className="bg-[#714b55] content-stretch flex gap-[10px] items-center justify-center px-[24px] py-[16px] relative shrink-0 cursor-pointer"
+              className={`bg-[#CA427D] content-stretch flex gap-[10px] items-center justify-center ${styles.buttonPadding} relative shrink-0 cursor-pointer hover:bg-[#953C52] active:bg-[#7a2f41] transition-colors duration-200 touch-manipulation`}
               data-name="Button"
               onClick={onNext}
             >
@@ -349,11 +252,16 @@ export default function ImageCarousel({
 
   // Main image with controls wrapper
   function ImageWithControls({ src, onPrevious, onNext }: { src: string; onPrevious: () => void; onNext: () => void }) {
+    // For tablet and mobile, simplify structure - no wrapper divs
+    if (variant !== "desktop") {
+      return <MainImage src={src} />;
+    }
+    
+    // Desktop version with controls
     return (
-      <div className={`content-stretch flex flex-col items-center justify-center pt-0 px-0 relative shrink-0 w-full ${isMobileOrTablet ? '' : 'pb-[88px]'}`} data-name="img + controls">
+      <div className={`content-stretch flex flex-col items-center justify-center pt-0 px-0 relative shrink-0 w-full ${styles.controlsPadding}`} data-name="img + controls">
         <div className="relative shrink-0 w-full">
           <MainImage src={src} />
-          {isMobileOrTablet && <ImageCounter />}
         </div>
         <NavigationButtons onPrevious={onPrevious} onNext={onNext} />
       </div>

@@ -1,35 +1,6 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-// Hook to detect when element is in view (replayable)
-function useInView() {
-  const [isInView, setIsInView] = useState(false);
-  const [wasInView, setWasInView] = useState(false);
-  const [ref, setRef] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!ref) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !wasInView) {
-          setIsInView(true);
-          setWasInView(true);
-        } else if (!entry.isIntersecting && wasInView) {
-          // Reset when leaving viewport to allow replay
-          setIsInView(false);
-          setWasInView(false);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(ref);
-    return () => observer.disconnect();
-  }, [ref, wasInView]);
-
-  return [setRef, isInView] as const;
-}
+import { useInView } from "../hooks/useInView";
+import { useTranslation } from "../hooks/useTranslation";
 
 interface CardProps {
   title: string;
@@ -39,23 +10,28 @@ interface CardProps {
 function getRouteFromTitle(title: string): string {
   const routeMap: { [key: string]: string } = {
     "La proprietà": "/la-proprieta",
+    "The Property": "/la-proprieta",
     "Il contesto": "/il-contesto",
-    "L'investimento": "/linvestimento"
+    "The Context": "/il-contesto",
+    "L'investimento": "/linvestimento",
+    "Investment prospects": "/linvestimento",
+    "The Investment": "/linvestimento"
   };
   return routeMap[title] || "/";
 }
 
 function CardButton({ title }: { title: string }) {
+  const t = useTranslation();
   const route = getRouteFromTitle(title);
   
   return (
     <Link 
       to={route}
-      className="bg-[#714b55] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#5a3d45] transition-colors duration-200" 
+      className="bg-[#CA427D] content-stretch cursor-pointer flex h-[50px] items-center justify-center px-[24px] py-[16px] relative shrink-0 hover:bg-[#953C52] transition-colors duration-200" 
       data-name="Card Button"
     >
       <p className="font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.1] relative shrink-0 text-[#fffaf4] text-[16px] text-nowrap tracking-[0.8px] uppercase whitespace-pre" style={{ fontVariationSettings: "'wdth' 100" }}>
-        approfondisci
+        {t.common.buttons.approfondisci}
       </p>
     </Link>
   );

@@ -1,12 +1,14 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Desktop from "./layouts/Desktop";
 import Mobile from "./layouts/Mobile";
 import Tablet from "./layouts/Tablet";
-import LaProprieta from "./pages/LaProprieta";
-import LInvestimento from "./pages/LInvestimento";
-import IlContesto from "./pages/IlContesto";
-import UnderConstruction from "./components/UnderConstruction";
+import CookieBanner from "./components/CookieBanner";
+
+// Lazy load pages for better performance
+const LaProprieta = lazy(() => import("./pages/LaProprieta"));
+const LInvestimento = lazy(() => import("./pages/LInvestimento"));
+const IlContesto = lazy(() => import("./pages/IlContesto"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -37,14 +39,28 @@ function HomePage() {
   );
 }
 
+// Loading fallback component
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-[#fffaf4]">
+      <div className="text-[#714b55] font-['Open Sans',sans-serif]">Caricamento...</div>
+    </div>
+  );
+}
+
 export default function App() {
-  // Sito in costruzione - mostra UnderConstruction per tutte le route
   return (
     <>
       <ScrollToTop />
-      <Routes>
-        <Route path="*" element={<UnderConstruction />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/la-proprieta" element={<LaProprieta />} />
+          <Route path="/linvestimento" element={<LInvestimento />} />
+          <Route path="/il-contesto" element={<IlContesto />} />
+        </Routes>
+      </Suspense>
+      <CookieBanner />
     </>
   );
 }
