@@ -9,7 +9,7 @@ import { useTranslation } from "../hooks/useTranslation";
 // Images from assets
 import imgNavheroPage from "../../assets/photos/proprietà/Hero.jpeg";
 import imgIntro from "../../assets/photos/proprietà/Intro.png";
-import imgGrapes from "../../assets/photos/proprietà/vigneto e acetaia/Photo 2.png";
+import imgGrapes from "../../assets/photos/proprietà/vigneto e acetaia/Photo 2.jpg";
 import imgBarrels from "../../assets/photos/proprietà/vigneto e acetaia/Photo 1.jpg";
 import imgAltriLocali1 from "../../assets/photos/proprietà/Gli altri locali/Photo 1.jpeg";
 import imgAltriLocali2 from "../../assets/photos/proprietà/Gli altri locali/Photo 2.jpeg";

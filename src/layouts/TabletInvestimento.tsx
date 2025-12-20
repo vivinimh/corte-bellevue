@@ -9,7 +9,7 @@ import { useTranslation } from "../hooks/useTranslation";
 // Images from assets
 import imgNavheroPage from "../../assets/photos/investimento/Hero.jpg";
 import imgIntro1 from "../../assets/photos/investimento/intro/Photo 1.jpeg";
-import imgIntro2 from "../../assets/photos/investimento/intro/Photo 2.png";
+import imgIntro2 from "../../assets/photos/investimento/intro/Photo 2.jpg";
 import imgIntro3 from "../../assets/photos/investimento/intro/Photo 3.jpeg";
 import imgIntro4 from "../../assets/photos/investimento/intro/Photo 4.jpeg";
 

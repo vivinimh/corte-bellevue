@@ -9,7 +9,7 @@ import VideoPlayer from "../components/VideoPlayer";
 import imgHeroBanner from "../../assets/photos/homepage/Hero.jpg";
 import imgImage1 from "../../assets/photos/homepage/Photo 1.jpeg";
 import imgImage2 from "../../assets/photos/homepage/Photo 3.jpg";
-import imgImage3 from "../../assets/photos/homepage/Photo 2.png";
+import imgImage3 from "../../assets/photos/homepage/Photo 2.jpg";
 import imgPlayer from "../../assets/photos/homepage/Photo 3.jpg";
 import videoSrc from "../../assets/photos/homepage/video.mp4";
 
