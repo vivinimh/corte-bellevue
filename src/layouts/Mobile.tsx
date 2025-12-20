@@ -176,8 +176,8 @@ function Container() {
   return (
     <section className="relative shrink-0 w-full" data-name="container">
       <div className="flex flex-col items-center justify-center size-full" data-name="section wrapper">
-        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[80px] relative w-full" data-name="section container">
-          <p className="[text-shadow:rgba(0,0,0,0.35)_2px_2px_7px] font-['EB Garamond',serif] font-normal leading-[1.15] relative shrink-0 text-[#f6eee5] text-[32px] text-center w-full">{t.home.hero.title}</p>
+        <div className="content-stretch flex flex-col items-center justify-center px-[16px] py-[64px] relative w-full" data-name="section container">
+          <p className="[text-shadow:rgba(0,0,0,0.35)_2px_2px_7px] font-['EB Garamond',serif] font-normal leading-[1.15] relative shrink-0 text-[#f6eee5] text-[24px] text-center w-full">{t.home.hero.title}</p>
         </div>
       </div>
     </section>
@@ -186,7 +186,7 @@ function Container() {
 
 function HeroBanner() {
   const [scrollY, setScrollY] = useState(0);
-  const heroBannerHeight = 778;
+  const heroBannerHeight = 578;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -202,7 +202,7 @@ function HeroBanner() {
   const parallaxOffset = scrollY < heroBannerHeight ? scrollY * 0.3 : heroBannerHeight * 0.3;
 
   return (
-    <header className="content-stretch flex flex-col h-[778px] items-center justify-end p-0 relative shrink-0 w-full z-[1] overflow-hidden" data-name="hero banner">
+    <header className="content-stretch flex flex-col h-[578px] items-center justify-end p-0 relative shrink-0 w-full z-[1] overflow-hidden" data-name="hero banner">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <img 
           alt="Proprietà emiliana campagna" 
@@ -219,7 +219,7 @@ function HeroBanner() {
 
 function NavheroHp() {
   return (
-    <div className="content-stretch flex flex-col h-[778px] isolate items-center overflow-clip absolute top-0 left-0 right-0 shrink-0 w-full" data-name="navhero hp">
+    <div className="content-stretch flex flex-col h-[578px] isolate items-center overflow-clip absolute top-0 left-0 right-0 shrink-0 w-full" data-name="navhero hp">
       <HeroBanner />
     </div>
   );
@@ -685,7 +685,7 @@ function Chiusura() {
 
 function Main() {
   return (
-    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[697px]" data-name="main" tabIndex={-1}>
+    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[497px]" data-name="main" tabIndex={-1}>
       <Apertura />
       <Video />
       <ContenutoLancio />
@@ -698,7 +698,7 @@ function Main() {
 
 export default function Mobile() {
   const [isOverlaying, setIsOverlaying] = useState(true);
-  const heroBannerHeight = 778;
+  const heroBannerHeight = 578;
 
   useEffect(() => {
     const handleScroll = () => {

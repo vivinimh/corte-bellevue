@@ -186,7 +186,7 @@ function Container() {
 
 function HeroBanner() {
   const [scrollY, setScrollY] = useState(0);
-  const heroBannerHeight = 778;
+  const heroBannerHeight = 678;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -202,7 +202,7 @@ function HeroBanner() {
   const parallaxOffset = scrollY < heroBannerHeight ? scrollY * 0.3 : heroBannerHeight * 0.3;
 
   return (
-    <header className="content-stretch flex flex-col h-[778px] items-center justify-end p-0 relative shrink-0 w-full z-[1] overflow-hidden" data-name="hero banner">
+    <header className="content-stretch flex flex-col h-[678px] items-center justify-end p-0 relative shrink-0 w-full z-[1] overflow-hidden" data-name="hero banner">
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <img 
           alt="Proprietà emiliana campagna" 
@@ -219,7 +219,7 @@ function HeroBanner() {
 
 function NavheroHp() {
   return (
-    <div className="content-stretch flex flex-col h-[778px] isolate items-center overflow-clip absolute top-0 left-0 right-0 shrink-0 w-full" data-name="navhero hp">
+    <div className="content-stretch flex flex-col h-[678px] isolate items-center overflow-clip absolute top-0 left-0 right-0 shrink-0 w-full" data-name="navhero hp">
       <HeroBanner />
     </div>
   );
@@ -689,7 +689,7 @@ function Chiusura() {
 
 function Main() {
   return (
-    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[698px]" data-name="main" tabIndex={-1}>
+    <main className="content-stretch flex flex-col items-center p-0 relative shrink-0 w-full mt-[598px]" data-name="main" tabIndex={-1}>
       <Apertura />
       <Video />
       <ContenutoLancio />
@@ -702,7 +702,7 @@ function Main() {
 
 export default function Tablet() {
   const [isOverlaying, setIsOverlaying] = useState(true);
-  const heroBannerHeight = 778;
+  const heroBannerHeight = 678;
 
   useEffect(() => {
     const handleScroll = () => {
