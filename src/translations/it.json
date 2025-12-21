@@ -63,7 +63,8 @@
       "prospettiveInvestimento": {
         "title": "Prospettive d'investimento",
         "description": "La posizione strategica, la bellezza naturale e la versatilità architettonica rendono questa proprietà una scelta di valore per chi cerca un investimento emozionale e solido nel tempo. Ad esempio, attraverso questa suggestiva immagine realizzata con l'intelligenza artificiale, si intuisce come un fienile possa rivelare tutto il suo potenziale, trasformandosi in una dimora d'ispirazione provenzale.",
-        "description2": "Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia."
+        "description2": "Qui si può costruire un progetto di ospitalità di livello internazionale, o semplicemente vivere il sogno di una vita immersa nei ritmi autentici dell'Emilia.",
+        "rendering": "rendering"
       }
     },
     "chiusura": {
@@ -115,7 +116,7 @@
     "intro": {
       "title": "Corte Belle Vue è un insieme armonioso di spazi e funzioni, capace di adattarsi a molteplici visioni imprenditoriali e residenziali.",
       "description": "La sua versatilità è la chiave: la proprietà può trasformarsi in un Relais de Charme, in un agriturismo esclusivo, oppure in una residenza privata di prestigio per chi desidera vivere e investire nel cuore autentico dell'Emilia.",
-      "renderingRistrutturazione": "rendering ristrutturazione"
+      "renderingRistrutturazione": "rendering"
     },
     "terreno": {
       "description": "I dieci ettari di terreno, di cui otto coltivati a vigneto di Lambrusco e Trebbiano di Spagna, offrono un potenziale produttivo concreto. Le vigne, curate e ben esposte, rappresentano una base ideale per una produzione vinicola di qualità o per progetti di enoturismo esperienziale, dove ospitalità, gusto e cultura rurale si fondono in un'unica proposta autentica.",

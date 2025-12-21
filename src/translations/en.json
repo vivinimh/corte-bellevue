@@ -63,7 +63,8 @@
       "prospettiveInvestimento": {
         "title": "Investment Prospects",
         "description": "The strategic location, natural beauty and architectural versatility make this property a valuable choice for those seeking an emotional and solid investment over time. For example, this evocative image created with artificial intelligence gives an idea of how a barn can reveal its full potential, transforming itself into a Provençal-inspired residence.",
-        "description2": "Here, you can build an international-level hospitality project or simply live the dream of a life immersed in the authentic rhythms of Emilia."
+        "description2": "Here, you can build an international-level hospitality project or simply live the dream of a life immersed in the authentic rhythms of Emilia.",
+        "rendering": "rendering"
       }
     },
     "chiusura": {
@@ -115,7 +116,7 @@
     "intro": {
       "title": "Corte Belle Vue is a harmonious combination of spaces and functions, capable of adapting to multiple business and residential visions.",
       "description": "Its versatility is the key: the property can be transformed into a Relais de Charme, an exclusive farmhouse, or a prestigious private residence for those who wish to live and invest in the authentic heart of Emilia.",
-      "renderingRistrutturazione": "renovation rendering"
+      "renderingRistrutturazione": "rendering"
     },
     "terreno": {
       "description": "The ten hectares of land, eight of which are planted with Lambrusco and Trebbiano di Spagna vines, offer concrete production potential. The well-tended and well-exposed vineyards are an ideal base for quality wine production or experiential wine tourism projects, where hospitality, taste and rural culture come together in a unique and authentic offering.",

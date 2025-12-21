@@ -9,7 +9,8 @@ import VideoPlayer from "../components/VideoPlayer";
 import imgHeroBanner from "../../assets/photos/homepage/Hero.jpg";
 import imgImage1 from "../../assets/photos/homepage/Photo 1.jpeg";
 import imgImage2 from "../../assets/photos/homepage/Photo 3.jpg";
-import imgImage3 from "../../assets/photos/homepage/Photo 2.jpg";
+import imgImage3Slide1 from "../../assets/photos/homepage/Photo 2.jpeg";
+import imgImage3Slide2 from "../../assets/photos/homepage/Photo 4.jpeg";
 import imgPlayer from "../../assets/photos/homepage/Photo 3.jpg";
 import videoSrc from "../../assets/photos/homepage/video.mp4";
 
@@ -656,11 +657,36 @@ function TextBlock2() {
 }
 
 function Image2() {
+  const t = useTranslation();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [imgImage3Slide1, imgImage3Slide2];
+  const altTexts = ["Investimento proprietà emiliana", "Investimento proprietà emiliana"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Cambia immagine ogni 3 secondi
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <figure className="aspect-[524/524] basis-0 content-stretch flex grow items-start min-h-px min-w-px mr-[-88px] relative shrink-0 z-[1]" data-name="image">
       <div aria-hidden="true" className="absolute border border-black border-solid inset-0 pointer-events-none" />
       <div className="aspect-[348/348] basis-0 grow min-h-px min-w-px relative shrink-0" data-name="Image 1">
-        <img alt="Investimento proprietà emiliana" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgImage3} />
+        {images.map((image, index) => (
+          <img 
+            key={index}
+            alt={altTexts[index]} 
+            className={`absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full transition-opacity duration-1000 ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            src={image} 
+          />
+        ))}
+        <figcaption className="absolute top-0 right-0 font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.4] text-[#333333] text-[16px] p-[16px] z-10" style={{ fontVariationSettings: "'wdth' 100" }}>
+          {t.home.sections.prospettiveInvestimento.rendering}
+        </figcaption>
       </div>
     </figure>
   );

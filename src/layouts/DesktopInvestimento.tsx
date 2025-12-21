@@ -10,8 +10,6 @@ import { useTranslation } from "../hooks/useTranslation";
 import imgNavheroPage from "../../assets/photos/investimento/Hero.jpg";
 import imgIntro1 from "../../assets/photos/investimento/intro/Photo 1.jpeg";
 import imgIntro2 from "../../assets/photos/investimento/intro/Photo 2.jpg";
-import imgIntro3 from "../../assets/photos/investimento/intro/Photo 3.jpeg";
-import imgIntro4 from "../../assets/photos/investimento/intro/Photo 4.jpeg";
 
 function Copy() {
   const t = useTranslation();
@@ -28,8 +26,8 @@ function Copy() {
 function Image() {
   const t = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [imgIntro1, imgIntro2, imgIntro3, imgIntro4];
-  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo", "Residenza privata prestigio", "Investimento ospitalità internazionale"];
+  const images = [imgIntro1, imgIntro2];
+  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +37,7 @@ function Image() {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const showCaption = currentIndex === 1 || currentIndex === 3;
+  const showCaption = currentIndex === 1;
 
   return (
     <figure className="aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0" data-name="Image">
@@ -55,7 +53,7 @@ function Image() {
           />
         ))}
         {showCaption && (
-          <figcaption className="absolute top-0 right-0 font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.4] text-[#333333] text-[14px] p-[16px] z-10" style={{ fontVariationSettings: "'wdth' 100" }}>
+          <figcaption className="absolute top-0 right-0 font-['Open_Sans:SemiBold',sans-serif] font-semibold leading-[1.4] text-[#333333] text-[16px] p-[16px] z-10" style={{ fontVariationSettings: "'wdth' 100" }}>
             {t.linvestimento.intro.renderingRistrutturazione}
           </figcaption>
         )}
