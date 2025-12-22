@@ -199,7 +199,7 @@ function Image12() {
 
   return (
     <figure className="aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[3px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         {images.map((image, index) => (
           <img 
             key={index}
@@ -275,7 +275,7 @@ function Image13() {
 
   return (
     <figure className="aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="image gallery container">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[3px] border-[#ad3854] p-[16px] relative" data-name="image gallery container">
         {images.map((image, index) => (
           <img 
             key={index}

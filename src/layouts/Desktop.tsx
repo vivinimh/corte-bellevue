@@ -462,7 +462,7 @@ function VideoPlayerWrapper() {
 function Video() {
   const [ref, isInView] = useInView();
   return (
-    <div ref={ref} className={`content-stretch flex flex-col items-center relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="video">
+    <div ref={ref} className={`content-stretch flex flex-col items-center relative shrink-0 w-full mb-[40px] reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="video">
       <VideoPlayerWrapper />
     </div>
   );

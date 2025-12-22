@@ -78,7 +78,7 @@ function Image1() {
   const [ref, isInView] = useInView();
   return (
     <figure ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[3px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         <img alt="Vista aerea Modena" className="absolute inset-[16px] w-[calc(100%-32px)] h-[calc(100%-32px)] max-w-none object-50%-50% object-cover pointer-events-none" src={imgWhatsAppImage20251121At1442501} />
       </div>
     </figure>
@@ -138,7 +138,7 @@ function Image2() {
   const [ref, isInView] = useInView();
   return (
     <figure ref={ref} className={`aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full reveal-in-view ${isInView ? 'is-in-view' : ''}`} data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[3px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         <img alt="Campagna verde montagne" className="absolute inset-[16px] w-[calc(100%-32px)] h-[calc(100%-32px)] object-cover pointer-events-none" src={imgWhatsAppImage20251121At1442502} />
       </div>
     </figure>

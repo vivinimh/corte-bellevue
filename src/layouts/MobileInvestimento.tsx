@@ -10,12 +10,14 @@ import { useTranslation } from "../hooks/useTranslation";
 import imgNavheroPage from "../../assets/photos/investimento/Hero.jpg";
 import imgIntro1 from "../../assets/photos/investimento/intro/Photo 1.jpeg";
 import imgIntro2 from "../../assets/photos/investimento/intro/Photo 2.jpg";
+import imgIntro3 from "../../assets/photos/investimento/intro/Photo 3.jpeg";
+import imgIntro4 from "../../assets/photos/investimento/intro/Photo 4.jpeg";
 
 function Image() {
   const t = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [imgIntro1, imgIntro2];
-  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo"];
+  const images = [imgIntro1, imgIntro2, imgIntro3, imgIntro4];
+  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo", "Proprietà ristrutturazione potenziale", "Relais charm agriturismo"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,7 +27,7 @@ function Image() {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const showCaption = currentIndex === 1;
+  const showCaption = currentIndex === 1 || currentIndex === 3;
 
   return (
     <figure className="aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Image">
@@ -87,7 +89,7 @@ function ContenutoFotoIsolata() {
 function Image1() {
   return (
     <figure className="aspect-[352/352] content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Image">
-      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[1px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
+      <div className="basis-0 grow min-h-px min-w-px shrink-0 w-full border-[3px] border-[#ad3854] p-[16px] relative" data-name="WhatsApp Image 2025-11-21 at 14.42.50 1">
         <img alt="Investimento proprietà emiliana" className="absolute inset-[16px] w-[calc(100%-32px)] h-[calc(100%-32px)] max-w-none object-50%-50% object-cover pointer-events-none" src={imgNavheroPage} />
       </div>
     </figure>
