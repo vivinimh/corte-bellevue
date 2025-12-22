@@ -29,6 +29,31 @@ function Title({ isOverlaying, isScrolled }: { isOverlaying: boolean; isScrolled
   );
 }
 
+function Frame0({ isOverlaying, isActive }: { isOverlaying: boolean; isActive?: boolean }) {
+  const t = useTranslation();
+  const underlineClass = isActive 
+    ? (isOverlaying ? 'after:bg-[#F6EEE5]' : 'after:bg-[#714B55]')
+    : '';
+  return (
+    <div className="content-stretch flex gap-[8px] h-[24px] items-center relative shrink-0">
+      <p className={`font-['Open Sans',sans-serif] font-semibold leading-[1.1] relative shrink-0 transition-colors duration-500 ease-in-out ${isOverlaying ? 'text-[#F6EEE5]' : 'text-[#714b55]'} text-[16px] text-center text-nowrap tracking-[0.8px] uppercase whitespace-pre ${isActive ? 'after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px]' : ''} ${underlineClass}`} style={{ fontVariationSettings: "'wdth' 100" }}>
+        {t.common.navigation.homepage}
+      </p>
+    </div>
+  );
+}
+
+function NavButton0({ isOverlaying }: { isOverlaying: boolean }) {
+  const location = useLocation();
+  const isActive = location.pathname === "/";
+  
+  return (
+    <Link to="/" className="content-stretch flex h-full items-center justify-center px-[16px] py-[8px] relative shrink-0 hover:bg-[#AD8E95]/15 transition-colors duration-500 ease-in-out" data-name="Nav button">
+      <Frame0 isOverlaying={isOverlaying} isActive={isActive} />
+    </Link>
+  );
+}
+
 function Frame1({ isOverlaying, isActive }: { isOverlaying: boolean; isActive?: boolean }) {
   const t = useTranslation();
   return (
@@ -96,6 +121,7 @@ function NavButton2({ isOverlaying }: { isOverlaying: boolean }) {
 function Nav({ isOverlaying }: { isOverlaying: boolean }) {
   return (
     <div className="content-stretch flex h-full items-center justify-end pl-0 pr-[16px] py-0 relative shrink-0" data-name="nav">
+      <NavButton0 isOverlaying={isOverlaying} />
       <NavButton isOverlaying={isOverlaying} />
       <NavButton1 isOverlaying={isOverlaying} />
       <NavButton2 isOverlaying={isOverlaying} />

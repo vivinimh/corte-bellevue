@@ -104,6 +104,16 @@ function Menu({ isOverlaying, isOpen, onClose }: { isOverlaying: boolean; isOpen
       >
         <div className="flex flex-col items-center py-[16px]">
           <Link 
+            to="/" 
+            onClick={onClose}
+            className="px-[16px] py-[12px] font-['Open Sans',sans-serif] font-semibold text-[16px] tracking-[0.8px] uppercase transition-colors duration-500 ease-in-out text-center text-[#714b55]" 
+            style={{ fontVariationSettings: "'wdth' 100" }}
+          >
+            <span className={`inline-block relative ${location.pathname === "/" ? 'after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#714B55]' : ''}`}>
+              {t.common.navigation.homepage}
+            </span>
+          </Link>
+          <Link 
             to="/la-proprieta" 
             onClick={onClose}
             className="px-[16px] py-[12px] font-['Open Sans',sans-serif] font-semibold text-[16px] tracking-[0.8px] uppercase transition-colors duration-500 ease-in-out text-center text-[#714b55]" 
