@@ -12,6 +12,8 @@ import imgIntro1 from "../../assets/photos/investimento/intro/Photo 1.jpeg";
 import imgIntro2 from "../../assets/photos/investimento/intro/Photo 2.jpg";
 import imgIntro3 from "../../assets/photos/investimento/intro/Photo 3.jpeg";
 import imgIntro4 from "../../assets/photos/investimento/intro/Photo 4.jpeg";
+import imgIntro5 from "../../assets/photos/investimento/intro/Photo 5.jpeg";
+import imgIntro6 from "../../assets/photos/investimento/intro/Photo 6.jpg";
 
 function Copy() {
   const t = useTranslation();
@@ -28,8 +30,8 @@ function Copy() {
 function Image() {
   const t = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [imgIntro1, imgIntro2, imgIntro3, imgIntro4];
-  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo", "Proprietà ristrutturazione potenziale", "Relais charm agriturismo"];
+  const images = [imgIntro1, imgIntro2, imgIntro3, imgIntro4, imgIntro5, imgIntro6];
+  const altTexts = ["Proprietà ristrutturazione potenziale", "Relais charm agriturismo", "Proprietà ristrutturazione potenziale", "Relais charm agriturismo", "Proprietà ristrutturazione potenziale", "Relais charm agriturismo"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +41,7 @@ function Image() {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const showCaption = currentIndex === 1 || currentIndex === 3;
+  const showCaption = currentIndex === 1 || currentIndex === 3 || currentIndex === 5;
 
   return (
     <figure className="aspect-[536/536] basis-0 content-stretch flex grow items-center min-h-px min-w-px relative shrink-0" data-name="Image">
