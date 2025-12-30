@@ -131,6 +131,16 @@
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Sfondo principale del sito con fallback per compatibilità cross-browser */
+    /* Fallback RGB per browser più vecchi */
+    background-color: rgb(255, 250, 244);
+    /* Colore principale in formato HEX */
+    background-color: #fffaf4;
+    /* Assicura che il body copra tutta l'altezza */
+    min-height: 100vh;
+    /* Previene margini di default del browser */
+    margin: 0;
+    padding: 0;
   }
   
   /* Ensure Google Fonts are available for arbitrary values */
@@ -197,6 +207,15 @@
 
 html {
   font-size: var(--font-size);
+  /* Forza sRGB per gestione colore uniforme su tutti i browser/dispositivi */
+  color-profile: sRGB;
+  /* Assicura che lo sfondo copra tutta la viewport */
+  /* Fallback RGB per browser più vecchi */
+  background-color: rgb(255, 250, 244);
+  /* Colore principale in formato HEX */
+  background-color: #fffaf4;
+  /* Previene il flash di contenuto bianco */
+  min-height: 100%;
 }
 
 /* Ensure Tailwind arbitrary font values work correctly */
@@ -257,4 +276,24 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Assicura che il root container abbia lo stesso sfondo */
+#root {
+  /* Fallback RGB per browser più vecchi */
+  background-color: rgb(255, 250, 244);
+  /* Colore principale in formato HEX */
+  background-color: #fffaf4;
+  min-height: 100vh;
+}
+
+/* Assicura che i container dei layout abbiano lo sfondo corretto */
+/* Fallback esplicito oltre alla classe Tailwind bg-[#fffaf4] */
+[data-name="Desktop"],
+[data-name="Mobile"],
+[data-name="Tablet"] {
+  /* Fallback RGB per browser più vecchi */
+  background-color: rgb(255, 250, 244) !important;
+  /* Colore principale in formato HEX */
+  background-color: #fffaf4 !important;
 }

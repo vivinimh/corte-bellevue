@@ -9,6 +9,7 @@ import CookieBanner from "./components/CookieBanner";
 const LaProprieta = lazy(() => import("./pages/LaProprieta"));
 const LInvestimento = lazy(() => import("./pages/LInvestimento"));
 const IlContesto = lazy(() => import("./pages/IlContesto"));
+const BackgroundColorTest = lazy(() => import("./pages/BackgroundColorTest"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/la-proprieta" element={<LaProprieta />} />
           <Route path="/linvestimento" element={<LInvestimento />} />
           <Route path="/il-contesto" element={<IlContesto />} />
+          <Route path="/test-background-color" element={<BackgroundColorTest />} />
         </Routes>
       </Suspense>
       <CookieBanner />
